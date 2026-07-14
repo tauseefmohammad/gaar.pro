@@ -85,7 +85,7 @@ export default function WorkOrdersPage() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 px-0 md:px-4 lg:px-8">
       <PageHeader title="Work Orders" />
 
       {/* Toolbar */}
@@ -136,9 +136,9 @@ export default function WorkOrdersPage() {
             onClick={() => router.push("/work-orders/create")}
             variant="ghost"
             size="icon"
-            className="bg-cyan-900 hover:bg-cyan-600 text-white"
+            className="bg-cyan-900 hover:bg-cyan-600 text-white w-auto px-4 py-2 rounded-lg flex items-center"
           >
-            <Plus className="mr-2 h-6 w-6" />
+            <Plus className="mr-2 h-6 w-6" />WO
           </Button>
         </div>
       </div>

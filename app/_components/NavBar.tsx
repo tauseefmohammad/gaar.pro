@@ -49,6 +49,7 @@ const NavBar = () => {
               ) : (
                 <div className="w-9 h-9 rounded-full bg-gray-400 flex items-center justify-center text-white text-sm">
                   {employeeData?.name?.charAt(0)?.toUpperCase()}
+                
                 </div>
               )}
             </div>

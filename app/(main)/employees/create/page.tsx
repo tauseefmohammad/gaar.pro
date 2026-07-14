@@ -125,22 +125,22 @@ export default function CreateEmployee() {
   if (!form) return null
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="space-y-4 px-0 md:px-4 lg:px-8">
 
       {/* 🔷 Title Bar */}
-      <div className="bg-gradient-to-r from-cyan-700 to-cyan-900 text-white text-center py-2 shadow">
+      <div className="bg-gradient-to-r from-cyan-300 to-cyan-900 text-white text-center py-2 rounded-md">
         <h1 className="text-sm font-semibold tracking-wide">
-          Receivables
+          Create New Employee
         </h1>
       </div>
 
-      <div className="p-6">
+      <div className="pt-5">
         <div className="bg-white p-6 rounded-2xl shadow space-y-6">
 
           {/* 🔹 Row 1 */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-600">
+              <label className="text-sm font-bold text-gray-600">
                 Employee Name
               </label>
               <input
@@ -153,7 +153,7 @@ export default function CreateEmployee() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-600">
+              <label className="text-sm font-bold text-gray-600">
                 Employee ID
               </label>
               <input
@@ -169,7 +169,7 @@ export default function CreateEmployee() {
           {/* 🔹 Row 2 */}
           <div className="grid grid-cols-2 gap-4 items-center">
             <div>
-              <label className="text-sm font-medium text-gray-600">
+              <label className="text-sm font-bold text-gray-600">
                 Upload Photo
               </label>
               <input
@@ -182,7 +182,7 @@ export default function CreateEmployee() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-600">
+              <label className="text-sm font-bold text-gray-600">
                 Photo Preview
               </label>
               <div className="h-24 border rounded-xl flex items-center justify-center bg-gray-50 mt-1">
@@ -204,7 +204,7 @@ export default function CreateEmployee() {
           {/* 🔹 Row 3 */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-600">
+              <label className="text-sm font-bold text-gray-600">
                 Phone
               </label>
               <input
@@ -217,7 +217,7 @@ export default function CreateEmployee() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-600">
+              <label className="text-sm font-bold text-gray-600">
                 Email
               </label>
               <input
@@ -233,7 +233,7 @@ export default function CreateEmployee() {
           {/* 🔹 Row 4 */}
           <div className="grid grid-cols-2 gap-4 items-center">
             <div>
-              <label className="text-sm font-medium text-gray-600">
+              <label className="text-sm font-bold text-gray-600">
                 Designation
               </label>
               <select
@@ -253,7 +253,7 @@ export default function CreateEmployee() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-600">
+              <label className="text-sm font-bold text-gray-600">
                 Is Manager
               </label>
               <div className="mt-2">
@@ -271,7 +271,7 @@ export default function CreateEmployee() {
           {/* 🔹 Row 5 */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-600">
+              <label className="text-sm font-bold text-gray-600">
                 Search Manager
               </label>
               <EmployeeSearch

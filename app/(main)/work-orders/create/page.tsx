@@ -172,20 +172,20 @@ export default function CreateWorkOrderPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-0 md:px-4 lg:px-8">
       <PageHeader title="Create Work Order" />
 
       <div className="bg-white rounded-lg border p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* WO No */}
           <div>
-            <Label>Work Order No</Label>
+            <Label className="font-bold">Work Order No</Label>
             <Input name="woNo" value={formData.woNo} onChange={handleChange} />
           </div>
 
           {/* WO Title */}
           <div>
-            <Label>Work Order Title</Label>
+            <Label className="font-bold">Work Order Title</Label>
             <Input
               name="woTitle"
               value={formData.woTitle}
@@ -195,7 +195,7 @@ export default function CreateWorkOrderPage() {
 
           {/* WO Date */}
           <div>
-            <Label>WO Date</Label>
+            <Label className="font-bold">WO Date</Label>
             <Input
               type="date"
               name="woDate"
@@ -206,7 +206,7 @@ export default function CreateWorkOrderPage() {
 
           {/* WO Type */}
           <div>
-            <Label>WO Type</Label>
+            <Label className="font-bold">WO Type</Label>
             <select
               className="border rounded-lg p-2 w-full"
               name="woType"
@@ -224,7 +224,7 @@ export default function CreateWorkOrderPage() {
 
           {/* Tender Search */}
           <div className="relative">
-            <Label>Tender No</Label>
+            <Label className="font-bold">Tender No</Label>
 
             <TenderSearchCB
               orgId={session?.user?.orgId ?? ""}
@@ -252,7 +252,7 @@ export default function CreateWorkOrderPage() {
 
           {/* WO Value */}
           <div>
-            <Label>WO Value</Label>
+            <Label className="font-bold">WO Value</Label>
             <AmountToWords
               amount={String(formData.woValue)}
               onChange={(val) =>
@@ -266,12 +266,12 @@ export default function CreateWorkOrderPage() {
 
           {/* Tender Name */}
           <div className="col-span-2">
-            <Label>Tender Description</Label>
+            <Label className="font-bold">Tender Description</Label>
             <Textarea name="tenderDesc" value={formData.tenderDesc} readOnly />
           </div>
 
           <div>
-            <label>Vertical</label>
+            <label className="font-bold">Vertical</label>
 
             <select
               className="border rounded-lg p-2 w-full"
@@ -296,7 +296,7 @@ export default function CreateWorkOrderPage() {
 
           {/* SUB VERTICAL */}
           <div>
-            <label>Sub Vertical</label>
+            <label className="font-bold">Sub Vertical</label>
 
             <select
               className="border rounded-lg p-2 w-full"
@@ -318,7 +318,7 @@ export default function CreateWorkOrderPage() {
             </select>
           </div>
           <div>
-            <label>Country *</label>
+            <label className="font-bold">Country *</label>
 
             <select
               className="border rounded-lg p-2 w-full"
@@ -341,7 +341,7 @@ export default function CreateWorkOrderPage() {
           </div>
 
           <div>
-            <label>State *</label>
+            <label className="font-bold">State *</label>
 
             <select
               className="border rounded-lg p-2 w-full"
@@ -364,7 +364,7 @@ export default function CreateWorkOrderPage() {
           </div>
           {/* Project Completion Date */}
           <div>
-            <Label>Project Completion Date</Label>
+            <Label className="font-bold">Project Completion Date</Label>
             <Input
               type="date"
               name="projectCompletionDate"
@@ -375,7 +375,7 @@ export default function CreateWorkOrderPage() {
 
           {/* Client */}
           <div>
-            <Label>Client</Label>
+            <Label className="font-bold">Client</Label>
             <ClientSearch
               orgId={session?.user?.orgId ?? ""}
               value={formData.client}
@@ -392,7 +392,7 @@ export default function CreateWorkOrderPage() {
 
           {/* BG Amount */}
           <div>
-            <Label>BG Amount</Label>
+            <Label className="font-bold">BG Amount</Label>
             <AmountToWords
               amount={String(formData.bgAmount)}
               onChange={(val) =>
@@ -406,7 +406,7 @@ export default function CreateWorkOrderPage() {
 
           {/* BG Maturity Date */}
           <div>
-            <Label>BG Maturity Date</Label>
+            <Label className="font-bold">BG Maturity Date</Label>
             <Input
               type="date"
               name="bgMaturityDate"

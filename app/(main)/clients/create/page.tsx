@@ -76,12 +76,12 @@ export default function CreateClientPage() {
   };
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="space-y-6 px-0 md:px-4 lg:px-8">
       <PageHeader title="Create Client" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border rounded-lg p-25">
         <div className="space-y-2">
-          <Label>Client</Label>
+          <Label className="font-bold">Client</Label>
 
           <Input
             value={formData.client}
@@ -95,7 +95,7 @@ export default function CreateClientPage() {
         </div>
 
         <div className="space-y-2">
-          <Label>State</Label>
+          <Label className="font-bold" >State</Label>
 
           <select
             className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-100"
@@ -117,7 +117,7 @@ export default function CreateClientPage() {
         </div>
 
         <div className="space-y-2">
-          <Label>Phone</Label>
+          <Label className="font-bold">Phone</Label>
 
           <Input
             value={formData.phone}
@@ -131,7 +131,7 @@ export default function CreateClientPage() {
         </div>
 
         <div className="space-y-2">
-          <Label>Email</Label>
+          <Label className="font-bold">Email</Label>
 
           <Input
             value={formData.emailId}
@@ -144,7 +144,7 @@ export default function CreateClientPage() {
           />
         </div>
         <div className="space-y-2">
-          <Label>Website</Label>
+          <Label className="font-bold">Website</Label>
 
           <Input
             value={formData.website}
@@ -158,7 +158,7 @@ export default function CreateClientPage() {
         </div>
 
         <div className="space-y-2">
-          <Label>GST Number</Label>
+          <Label className="font-bold">GST Number</Label>
 
           <Input
             value={formData.gstNo}

@@ -63,7 +63,7 @@ export default function EmployeeList() {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="space-y-4 px-0 md:px-4 lg:px-8">
       {/* Title */}
       <div className="bg-gradient-to-r from-cyan-300 to-cyan-900 text-white text-center py-2 rounded-md">
         <h1 className="text-lg font-semibold">Employees</h1>

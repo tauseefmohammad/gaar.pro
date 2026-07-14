@@ -199,8 +199,8 @@ export default function CreateReceivableForm() {
   );
 
   return (
-    <div className="p-4 space-y-12">
-      <div className="rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-300 px-6 py-4 text-white shadow-sm">
+    <div className="space-y-4 px-0 md:px-4 lg:px-8">
+      <div className="text-center rounded-md bg-gradient-to-r from-cyan-300 to-cyan-900 py-2 text-white shadow-sm">
         <h1 className="text-xl font-semibold">Create Receivable</h1>
       </div>
 
@@ -217,7 +217,7 @@ export default function CreateReceivableForm() {
           <CardContent className="p-6 bg-slate-50">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Label>Type</Label>
+                <Label className="font-bold">Type</Label>
 
                 <select
                   className="w-full border rounded-md p-2"
@@ -242,7 +242,7 @@ export default function CreateReceivableForm() {
               <div>{renderClientSearch("paymentFrom", "Payment From")}</div>
 
               <div className="md:col-span-2">
-                <Label>Description</Label>
+                <Label className="font-bold">Description</Label>
 
                 <Textarea
                   rows={4}
@@ -257,7 +257,7 @@ export default function CreateReceivableForm() {
               </div>
 
               <div>
-                <Label>Receivable Amount</Label>
+                <Label className="font-bold">Receivable Amount</Label>
 
                 <AmountToWords
                   amount={String(form.receivableAmount || "")}
@@ -271,7 +271,7 @@ export default function CreateReceivableForm() {
               </div>
 
               <div>
-                <Label>State</Label>
+                <Label className="font-bold">State</Label>
 
                 <select
                   className="w-full border rounded-md p-2"
@@ -296,7 +296,7 @@ export default function CreateReceivableForm() {
               <div>{renderUserSearch("owner", "Owner")}</div>
 
               <div>
-                <Label>Due Date</Label>
+                <Label className="font-bold">Due Date</Label>
 
                 <Input
                   type="date"
@@ -325,7 +325,7 @@ export default function CreateReceivableForm() {
           <CardContent className="p-6 bg-slate-50">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Label>Vertical</Label>
+                <Label className="font-bold">Vertical</Label>
 
                 <select
                   className="w-full border rounded-md p-2"
@@ -348,7 +348,7 @@ export default function CreateReceivableForm() {
               </div>
 
               <div>
-                <Label>Sub Vertical</Label>
+                <Label className="font-bold">Sub Vertical</Label>
 
                 <select
                   className="w-full border rounded-md p-2"
@@ -371,7 +371,7 @@ export default function CreateReceivableForm() {
               </div>
 
               <div>
-                <Label>Status</Label>
+                <Label className="font-bold">Status</Label>
 
                 <select
                   className="w-full border rounded-md p-2"
@@ -394,7 +394,7 @@ export default function CreateReceivableForm() {
               </div>
 
               <div>
-                <Label>Invoice No</Label>
+                <Label className="font-bold">Invoice No</Label>
 
                 <Input
                   value={form.invoiceNo || ""}
@@ -423,7 +423,7 @@ export default function CreateReceivableForm() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Tender No */}
               <div className="relative">
-                <Label>Tender No</Label>
+                <Label className="font-bold">Tender No</Label>
 
                 <Input
                   value={form.tenderNo || ""}
@@ -433,7 +433,7 @@ export default function CreateReceivableForm() {
               </div>
 
               <div>
-                <Label>Tender Description</Label>
+                <Label className="font-bold">Tender Description</Label>
 
                 <Input
                   readOnly
@@ -444,7 +444,7 @@ export default function CreateReceivableForm() {
 
               {/* Work Order */}
               <div className="relative">
-                <Label>Work Order No</Label>
+                <Label className="font-bold">Work Order No</Label>
 
                 <Input
                   value={form.woNo || ""}
@@ -486,7 +486,7 @@ export default function CreateReceivableForm() {
               </div>
 
               <div>
-                <Label>Work Order Title</Label>
+                <Label className="font-bold">Work Order Title</Label>
 
                 <Input
                   readOnly

@@ -156,7 +156,7 @@ export default function ClientsPage() {
   );
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="space-y-6 px-0 md:px-4 lg:px-8">
       <PageHeader title="Client Listing" />
 
       {/* Subtle background refresh indicator */}
