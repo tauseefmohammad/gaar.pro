@@ -172,7 +172,7 @@ export default function TenderListingPage() {
       {/* Table */}
       <div className="rounded-md border bg-white overflow-auto">
         <Table>
-          <TableHeader>
+          <TableHeader className="sticky top-0 bg-cyan-200 z-20 shadow-sm">
             <TableRow>
               <TableHead>Edit</TableHead>
               <TableHead>Tender No</TableHead>
