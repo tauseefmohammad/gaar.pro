@@ -25,6 +25,7 @@ export default function PaymentList() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [limit, setLimit] = useState(10);
+  const [totalRecords, setTotalRecords] = useState(0);
 
   const [sortField, setSortField] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
@@ -97,7 +98,7 @@ export default function PaymentList() {
   };
 
   return (
-    <div className="p-6 space-y-4">
+    <div className="space-y-4 px-0 md:px-4 lg:px-8">
       {/* Header */}
       <PageHeader title="Payments" />
 
@@ -148,30 +149,30 @@ export default function PaymentList() {
               <TableHead />
               <TableHead
                 onClick={() => handleSort("requestNo")}
-                className="cursor-pointer"
+                className="cursor-pointer font-bold"
               >
                 Request No <ArrowUpDown size={14} />
               </TableHead>
               <TableHead
                 onClick={() => handleSort("description")}
-                className="cursor-pointer"
+                className="cursor-pointer font-bold"
               >
                 Description <ArrowUpDown size={14} />
               </TableHead>
               <TableHead
                 onClick={() => handleSort("requestAmount")}
-                className="cursor-pointer"
+                className="cursor-pointer font-bold"
               >
                 Amount <ArrowUpDown size={14} />
               </TableHead>
-              <TableHead>Due Date</TableHead>
-              <TableHead>Priority</TableHead>
-              <TableHead>Vertical</TableHead>
-              <TableHead>State</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Approved</TableHead>
-              <TableHead>Authorized</TableHead>
-              <TableHead>Requested By</TableHead>
+              <TableHead className="font-bold">Due Date</TableHead>
+              <TableHead className="font-bold">Priority</TableHead>
+              <TableHead className="font-bold">Vertical</TableHead>
+              <TableHead className="font-bold">State</TableHead>
+              <TableHead className="font-bold">Status</TableHead>
+              <TableHead className="font-bold">Approved</TableHead>
+              <TableHead className="font-bold">Authorized</TableHead>
+              <TableHead className="font-bold">Requested By</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -234,6 +235,10 @@ export default function PaymentList() {
       </div>
 
       {/* Pagination */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-4">
+      <div className="text-sm text-muted-foreground">
+        Total Records: {totalRecords}
+      </div>
       <div className="flex justify-end gap-2 items-center">
         <Button
           variant="outline"
@@ -254,6 +259,7 @@ export default function PaymentList() {
         >
           Next
         </Button>
+      </div>
       </div>
     </div>
   );

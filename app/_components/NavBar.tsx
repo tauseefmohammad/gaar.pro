@@ -82,7 +82,7 @@ const handleLogout = async () => {
 
               
 
-              <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-600 focus:text-red-600">
+              <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-md font-semibold text-cyan-900 focus:text-red-600 ">
                 <LogOut className="mr-2 h-4 w-4" />
                 Logout
               </DropdownMenuItem>

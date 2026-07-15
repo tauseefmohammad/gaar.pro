@@ -29,6 +29,7 @@ export default function FundRequestList() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalRecords, setTotalRecords] = useState(0);
 
   const [sortField, setSortField] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
@@ -102,7 +103,7 @@ export default function FundRequestList() {
 
   // ---------------- UI ----------------
   return (
-    <div className="p-4 space-y-6">
+    <div className="space-y-4 px-0 md:px-4 lg:px-8">
       <PageHeader title="Fund Requests" />
 
       {/* 🔹 Toolbar */}
@@ -160,35 +161,35 @@ export default function FundRequestList() {
 
               <TableHead
                 onClick={() => handleSort("frNo")}
-                className="cursor-pointer"
+                className="cursor-pointer font-bold"
               >
                 FR No <ArrowUpDown size={14} className="inline ml-1" />
               </TableHead>
 
               <TableHead
                 onClick={() => handleSort("state")}
-                className="cursor-pointer"
+                className="cursor-pointer font-bold"
               >
                 State <ArrowUpDown size={14} className="inline ml-1" />
               </TableHead>
 
-              <TableHead>Vertical</TableHead>
-              <TableHead>Req. Date</TableHead>
+              <TableHead className="font-bold">Vertical</TableHead>
+              <TableHead className="font-bold">Req. Date</TableHead>
 
-              <TableHead>Description</TableHead>
+              <TableHead className="font-bold">Description</TableHead>
 
               <TableHead
                 onClick={() => handleSort("amount")}
-                className="cursor-pointer"
+                className="cursor-pointer font-bold"
               >
                 Amount <ArrowUpDown size={14} className="inline ml-1" />
               </TableHead>
 
-              <TableHead>Status</TableHead>
-              <TableHead>Requested By</TableHead>
+              <TableHead className="font-bold">Status</TableHead>
+              <TableHead className="font-bold">Requested By</TableHead>
 
-              <TableHead className="text-center">Approved</TableHead>
-              <TableHead className="text-center">Authorized</TableHead>
+              <TableHead className="text-center font-bold">Approved</TableHead>
+              <TableHead className="text-center font-bold">Authorized</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -239,6 +240,10 @@ export default function FundRequestList() {
       </div>
 
       {/* 🔻 Pagination */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-4">
+      <div className="text-sm text-muted-foreground">
+        Total Records: {totalRecords}
+      </div>
       <div className="flex justify-end gap-2 items-center">
         <Button
           variant="outline"
@@ -261,6 +266,7 @@ export default function FundRequestList() {
         >
           Next
         </Button>
+      </div>
       </div>
     </div>
   );

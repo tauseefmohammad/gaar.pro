@@ -298,7 +298,7 @@ export default function CreateFR() {
       <div className="grid grid-cols-2 gap-4 p-4">
         {/* DESCRIPTION */}
         <div className="col-span-2">
-          <label>Description</label>
+          <label className="font-bold">Description</label>
 
           <Textarea
             value={form.description}
@@ -313,7 +313,7 @@ export default function CreateFR() {
 
         {/* FR TYPE */}
         <div>
-          <label>FR Type</label>
+          <label className="font-bold">FR Type</label>
 
           <select
             className="border rounded-lg p-2 w-full"
@@ -337,7 +337,7 @@ export default function CreateFR() {
 
         {/* PAYMENT TYPE */}
         <div>
-          <label>Payment Type</label>
+          <label className="font-bold">Payment Type</label>
 
           <select
             className="border rounded-lg p-2 w-full"
@@ -368,7 +368,7 @@ export default function CreateFR() {
           <>
             {/* TENDER NO SEARCH */}
             <div className="relative" ref={tenderRef}>
-              <label>
+              <label className="font-bold">
                 Tender No <span className="text-red-500">*</span>
               </label>
 
@@ -405,7 +405,7 @@ export default function CreateFR() {
 
             {/* TENDER TITLE */}
             <div>
-              <label>
+              <label className="font-bold">
                 Tender Description <span className="text-red-500">*</span>
               </label>
 
@@ -419,7 +419,7 @@ export default function CreateFR() {
           <>
             {/* WORK ORDER NO */}
             <div className="relative" ref={woNoRef}>
-              <label>Work Order No</label>
+              <label className="font-bold">Work Order No</label>
 
               <Input
                 value={form.woNo}
@@ -452,7 +452,7 @@ export default function CreateFR() {
 
             {/* WORK ORDER TITLE */}
             <div className="relative" ref={woTitleRef}>
-              <label>Work Order Title</label>
+              <label className="font-bold">Work Order Title</label>
 
               <Input
                 value={form.woTitle}
@@ -486,7 +486,7 @@ export default function CreateFR() {
         )}
         {/* AMOUNT */}
         <div>
-          <label>Request Amount</label>
+          <label className="font-bold">Request Amount</label>
 
           <AmountToWords
             amount={form.amount}
@@ -501,7 +501,7 @@ export default function CreateFR() {
 
         {/* STATE */}
         <div>
-          <label>State</label>
+          <label className="font-bold">State</label>
 
           <select
             className="border rounded-lg p-2 w-full"
@@ -524,7 +524,7 @@ export default function CreateFR() {
         </div>
         {/* VERTICAL */}
         <div>
-          <label>Vertical</label>
+          <label className="font-bold">Vertical</label>
 
           <select
             className="border rounded-lg p-2 w-full"
@@ -549,7 +549,7 @@ export default function CreateFR() {
 
         {/* SUB VERTICAL */}
         <div>
-          <label>Sub Vertical</label>
+          <label className="font-bold">Sub Vertical</label>
 
           <select
             className="border rounded-lg p-2 w-full"
@@ -573,7 +573,7 @@ export default function CreateFR() {
 
         {/* PAYMENT TO */}
         <div className="relative" ref={paymentToRef}>
-          <label>Payment To</label>
+          <label className="font-bold">Payment To</label>
 
           <Input
             value={form.paymentTo}
@@ -606,7 +606,7 @@ export default function CreateFR() {
 
         {/* PRIORITY */}
         <div>
-          <label>Priority</label>
+          <label className="font-bold">Priority</label>
 
           <select
             className="border rounded-lg p-2 w-full"
@@ -630,7 +630,7 @@ export default function CreateFR() {
 
         {/* DUE DATE */}
         <div>
-          <label>Due Date</label>
+          <label className="font-bold">Due Date</label>
 
           <Input
             type="date"

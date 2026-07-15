@@ -28,6 +28,7 @@ export default function ReceivablesPage() {
   const [total, setTotal] = useState<number>(0);
   const [sortField, setSortField] = useState("dueDate");
   const [sortOrder, setSortOrder] = useState("desc");
+  const [totalRecords, setTotalRecords] = useState(0);
 
   const [limit, setLimit] = useState<number>(10);
 
@@ -143,13 +144,13 @@ export default function ReceivablesPage() {
           <TableHeader className="sticky top-0 bg-cyan-200 z-20 shadow-sm">
             <TableRow>
               <TableHead></TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Amount</TableHead>
-              <TableHead>Balance Amount</TableHead>
-              <TableHead>Vertical</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Due Date</TableHead>
-              <TableHead>State</TableHead>
+              <TableHead className="font-bold">Description</TableHead>
+              <TableHead className="font-bold">Amount</TableHead>
+              <TableHead className="font-bold">Balance Amount</TableHead>
+              <TableHead className="font-bold">Vertical</TableHead>
+              <TableHead className="font-bold">Status</TableHead>
+              <TableHead className="font-bold">Due Date</TableHead>
+              <TableHead className="font-bold">State</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -197,6 +198,10 @@ export default function ReceivablesPage() {
       </div>
 
       {/* Pagination */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-4">
+      <div className="text-sm text-muted-foreground">
+        Total Records: {totalRecords}
+      </div>
       <div className="flex justify-end gap-2 items-center mt-4">
         <Button
           variant="outline"
@@ -217,6 +222,7 @@ export default function ReceivablesPage() {
         >
           Next
         </Button>
+      </div>
       </div>
     </div>
   );

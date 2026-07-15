@@ -60,6 +60,7 @@ export default function ClientsPage() {
   // Pagination
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize] = useState(10);
+  const [totalRecords, setTotalRecords] = useState(0);
 
   // Sorting
   const [sortField, setSortField] = useState<SortField>("client");
@@ -273,9 +274,11 @@ export default function ClientsPage() {
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-end">
-        
-        <div className="flex gap-2 items-center">
+      <div className="flex items-center">
+         <div className="text-sm text-muted-foreground">
+          Total Records: {totalRecords}
+        </div>
+        <div className="flex gap-2 items-center justify-end w-half ml-auto">
           <Button
             variant="outline"
             size="sm"

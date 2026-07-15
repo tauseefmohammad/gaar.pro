@@ -148,7 +148,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 p-6">
+    <div className="min-h-screen bg-slate-100 space-y-4 px-0 md:px-4 lg:px-8">
       {/* Header */}
       <PageHeader title="Dashboard" />
       <div className="mb-8"></div>

@@ -63,6 +63,7 @@ export default function TenderListingPage() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalRecords, setTotalRecords] = useState(0);
 
   const [hoveredTender, setHoveredTender] = useState<Tender | null>(null);
 
@@ -285,10 +286,12 @@ export default function TenderListingPage() {
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-end gap-4">
-       
-
-        <div className="flex items-center gap-2">
+     
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-4">
+         <div className="text-sm text-muted-foreground">
+          Total Records: {totalRecords}
+         </div>
+        <div className="flex justify-end items-center gap-3">
           <Button
             variant="outline"
             disabled={page === 1}
@@ -308,6 +311,8 @@ export default function TenderListingPage() {
           </Button>
         </div>
       </div>
-    </div>
+      </div>
+    
+    
   );
 }

@@ -24,6 +24,7 @@ export default function EmployeeList() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [limit, setLimit] = useState(10);
+  const [totalRecords, setTotalRecords] = useState(0);
 
   const router = useRouter();
   const orgId = session?.user?.orgId;
@@ -121,13 +122,13 @@ export default function EmployeeList() {
         <Table>
           <TableHeader className="sticky top-0 bg-cyan-200 z-20 shadow-sm">
             <TableRow>
-              <TableHead className="w-[70px]">Edit</TableHead>
-              <TableHead className="w-[90px]">Photo</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Emp ID</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead>Designation</TableHead>
+              <TableHead className="w-[70px] font-bold">Edit</TableHead>
+              <TableHead className="w-[90px] font-bold">Photo</TableHead>
+              <TableHead className="font-bold">Name</TableHead>
+              <TableHead className="font-bold">Emp ID</TableHead>
+              <TableHead className="font-bold">Email</TableHead>
+              <TableHead className="font-bold">Phone</TableHead>
+              <TableHead className="font-bold">Designation</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -190,6 +191,10 @@ export default function EmployeeList() {
       </div>
 
       {/* Pagination */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-4">
+      <div className="text-sm text-muted-foreground">
+        Total Records: {totalRecords}
+      </div>
       <div className="mt-4 flex justify-end items-center gap-3">
         <Button
           variant="outline"
@@ -208,6 +213,7 @@ export default function EmployeeList() {
         >
           Next
         </Button>
+      </div>
       </div>
     </div>
   );
