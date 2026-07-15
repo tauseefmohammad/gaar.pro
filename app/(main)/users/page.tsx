@@ -59,7 +59,7 @@ export default function UserList() {
   return (
     <div className="space-y-4 px-0 md:px-4 lg:px-8">
       {/* Title */}
-      <div className="bg-gradient-to-r from-cyan-300 to-cyan-900 text-white text-center py-2 rounded-md">
+      <div className="bg-linear-to-r from-cyan-300 to-cyan-900 text-white text-center py-2 rounded-md">
         <h1 className="text-lg font-semibold">Users</h1>
       </div>
 
@@ -105,7 +105,7 @@ export default function UserList() {
         <Table>
           <TableHeader className="sticky top-0 bg-cyan-200 z-20 shadow-sm">
             <TableRow>
-              <TableHead className="w-[80px] text-center font-bold">Edit</TableHead>
+              <TableHead className="w-20 text-center font-bold">Edit</TableHead>
               <TableHead className="text-center font-bold">Name</TableHead>
               <TableHead className="text-center font-bold">Emp ID</TableHead>
               <TableHead className="text-center font-bold">Role</TableHead>
@@ -140,7 +140,7 @@ export default function UserList() {
                   {/* Role */}
                   <TableCell className="text-center">
                     <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-                      {user.role || "User"}
+                      {user.designation || "-"}
                     </span>
                   </TableCell>
 
@@ -151,7 +151,7 @@ export default function UserList() {
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-red-100 text-red-800'
                     }`}>
-                      {user.status || 'Active'}
+                      {user.status || '-'}
                     </span>
                   </TableCell>
                 </TableRow>

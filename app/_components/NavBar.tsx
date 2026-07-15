@@ -41,6 +41,8 @@ const NavBar = () => {
         }
       });
   }, [session?.user?.orgId, username]);
+  const displayName =
+  employeeData?.name || session?.user?.employeeName || "Account";
   const router = useRouter();
 
 const handleLogout = async () => {
@@ -76,7 +78,7 @@ const handleLogout = async () => {
 
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>
-                {employeeData?.name || username || "Account"}
+                {displayName}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
 
