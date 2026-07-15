@@ -13,8 +13,17 @@ export async function GET(req) {
   const skip = (page - 1) * limit
 
   const query = {
-  name: { $regex: search, $options: "i" },
-  ...(orgId ? { orgId } : {}),
+    ...(orgId ? { orgId } : {}),
+    ...(search
+      ? {
+          $or: [
+            { name: { $regex: search, $options: "i" } },
+            { empId: { $regex: search, $options: "i" } },
+            { designation: { $regex: search, $options: "i" } },
+            { status: { $regex: search, $options: "i" } },
+          ],
+        }
+      : {}),
   }
 
   const [users, total] = await Promise.all([
