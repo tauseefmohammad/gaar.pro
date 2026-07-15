@@ -2,7 +2,7 @@
 import { Bell, Menu, LogOut, User } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import React, { useEffect, useState } from "react";
-
+import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,6 +41,12 @@ const NavBar = () => {
         }
       });
   }, [session?.user?.orgId, username]);
+  const router = useRouter();
+
+const handleLogout = async () => {
+  await signOut({ redirect: false });
+  router.push("/");
+};
 
   return (
     <div className="flex justify-between items-center w-full mb-7">
@@ -79,10 +85,7 @@ const NavBar = () => {
                 Profile
               </DropdownMenuItem>
 
-              <DropdownMenuItem
-                onClick={() => signOut({ callbackUrl: "/login" })}
-                className="text-red-600 focus:text-red-600"
-              >
+              <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-600 focus:text-red-600">
                 <LogOut className="mr-2 h-4 w-4" />
                 Logout
               </DropdownMenuItem>
