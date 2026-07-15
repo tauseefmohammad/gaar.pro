@@ -143,7 +143,7 @@ export default function ReceivablesPage() {
         <Table>
           <TableHeader className="sticky top-0 bg-cyan-200 z-20 shadow-sm">
             <TableRow>
-              <TableHead></TableHead>
+              <TableHead className="text-black font-bold w-16">Edit</TableHead>
               <TableHead className="font-bold">Description</TableHead>
               <TableHead className="font-bold">Amount</TableHead>
               <TableHead className="font-bold">Balance Amount</TableHead>

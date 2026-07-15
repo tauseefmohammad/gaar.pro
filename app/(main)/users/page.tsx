@@ -30,7 +30,7 @@ export default function UserList() {
 
   const fetchData = async () => {
     const res = await fetch(
-      `/api/users/search?search=${search}&page=${page}&limit=${limit}&orgId=${orgId}`,
+      `/api/user/search?search=${search}&page=${page}&limit=${limit}&orgId=${orgId}`,
     );
 
     const json = await res.json();
@@ -45,7 +45,7 @@ export default function UserList() {
   // Export functionality
   const handleExport = async () => {
     const res = await fetch(
-      `/api/users/export?orgId=${orgId}&search=${search}`,
+      `/api/user/export?orgId=${orgId}&search=${search}`,
     );
 
     const blob = await res.blob();

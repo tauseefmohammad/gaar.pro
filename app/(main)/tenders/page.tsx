@@ -175,17 +175,17 @@ export default function TenderListingPage() {
         <Table>
           <TableHeader className="sticky top-0 bg-cyan-200 z-20 shadow-sm">
             <TableRow>
-              <TableHead>Edit</TableHead>
-              <TableHead>Tender No</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Department</TableHead>
-              <TableHead>Client</TableHead>
-              <TableHead>Tender Value</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Position</TableHead>
-              <TableHead>EMD</TableHead>
-              <TableHead>BG</TableHead>
-              <TableHead>Tender Date</TableHead>
+              <TableHead className="font-bold">Edit</TableHead>
+              <TableHead className="font-bold">Tender No</TableHead>
+              <TableHead className="font-bold">Description</TableHead>
+              <TableHead className="font-bold">Department</TableHead>
+              <TableHead className="font-bold">Client</TableHead>
+              <TableHead className="font-bold">Tender Value</TableHead>
+              <TableHead className="font-bold">Status</TableHead>
+              <TableHead className="font-bold">Position</TableHead>
+              <TableHead className="font-bold">EMD</TableHead>
+              <TableHead className="font-bold">BG</TableHead>
+              <TableHead className="font-bold">Tender Date</TableHead>
             </TableRow>
           </TableHeader>
 

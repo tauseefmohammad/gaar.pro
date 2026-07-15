@@ -148,7 +148,7 @@ export default function ClientsPage() {
   }) => (
     <Button
       variant="ghost"
-      className="px-0 hover:bg-transparent"
+      className="px-0 hover:bg-transparent font-bold"
       onClick={() => handleSort(field)}
     >
       {label}
@@ -212,7 +212,7 @@ export default function ClientsPage() {
         <Table>
           <TableHeader className="sticky top-0 bg-cyan-200 z-20 shadow-sm">
             <TableRow>
-              <TableHead className="w-[60px]">Edit</TableHead>
+              <TableHead className="w-[60px] font-bold">Edit</TableHead>
               <TableHead>
                 <SortableHeader label="Client" field="client" />
               </TableHead>

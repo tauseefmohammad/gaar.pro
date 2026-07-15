@@ -157,7 +157,7 @@ export default function FundRequestList() {
           {/* ✅ STICKY HEADER FIX */}
           <TableHeader className="sticky top-0 bg-cyan-200 z-20 shadow-sm">
             <TableRow>
-              <TableHead></TableHead>
+              <TableHead className="text-black font-bold w-16">Edit</TableHead>
 
               <TableHead
                 onClick={() => handleSort("frNo")}

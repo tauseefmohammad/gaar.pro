@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongoose";
+import Employee from "@/models/Employee";
 import User from '@/models/User';
 import bcrypt from "bcryptjs";
 
@@ -18,7 +19,7 @@ export async function GET(req){
                 
         const [employees, total] = await Promise.all([
             Employee.find({orgId: orgId}).skip(skip).limit(limit),
-            Employee.countDocuments()
+            Employee.countDocuments({orgId: orgId})
         ]);
 
         return NextResponse.json({
