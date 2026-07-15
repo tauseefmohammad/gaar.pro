@@ -273,26 +273,27 @@ export default function ClientsPage() {
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-between">
-        <div className="text-sm text-muted-foreground">
-          Page {pageIndex + 1} of {totalPages}
-        </div>
-        <div className="flex gap-2">
+      <div className="flex items-center justify-end">
+        
+        <div className="flex gap-2 items-center">
           <Button
             variant="outline"
             size="sm"
             disabled={pageIndex === 0}
             onClick={() => setPageIndex((prev) => prev - 1)}
           >
-            <ChevronLeft className="h-4 w-4" />
+            Prev
           </Button>
+          <div className="text-sm text-muted-foreground font-bold">
+          Page {pageIndex + 1} of {totalPages}
+        </div>
           <Button
             variant="outline"
             size="sm"
             disabled={pageIndex + 1 >= totalPages}
             onClick={() => setPageIndex((prev) => prev + 1)}
           >
-            <ChevronRight className="h-4 w-4" />
+            Next
           </Button>
         </div>
       </div>
