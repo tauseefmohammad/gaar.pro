@@ -218,7 +218,7 @@ export default function WorkOrdersPage() {
             disabled={page === 1}
             onClick={() => setPage((prev) => prev - 1)}
           >
-            <ChevronLeft className="h-4 w-4" />
+            Prev
           </Button>
 
           <span className="font-medium">
@@ -231,7 +231,7 @@ export default function WorkOrdersPage() {
             disabled={page >= totalPages}
             onClick={() => setPage((prev) => prev + 1)}
           >
-            <ChevronRight className="h-4 w-4" />
+            Next
           </Button>
         </div>
       </div>

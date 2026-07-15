@@ -109,7 +109,7 @@ export default function TenderListingPage() {
   }, [data, search]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 *:px-0 md:px-4 lg:px-8">
       {/* Header */}
       <PageHeader title="Tenders" />
 
@@ -285,10 +285,8 @@ export default function TenderListingPage() {
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-between">
-        <div className="text-sm text-muted-foreground">
-          Page {page} of {totalPages}
-        </div>
+      <div className="flex items-center justify-end gap-4">
+       
 
         <div className="flex items-center gap-2">
           <Button
@@ -296,9 +294,11 @@ export default function TenderListingPage() {
             disabled={page === 1}
             onClick={() => setPage((prev) => prev - 1)}
           >
-            Previous
+            Prev
           </Button>
-
+             <div className="text-sm text-muted-foreground font-bold">
+          Page {page} of {totalPages}
+        </div>
           <Button
             variant="outline"
             disabled={page === totalPages}

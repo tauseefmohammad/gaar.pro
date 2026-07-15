@@ -315,7 +315,7 @@ export default function CreateTenderPage() {
   }, [userSearch]);
 
   return (
-    <div className="p-3 md:p-4 space-y-4">
+    <div className="space-y-4 *:px-0 md:px-4 lg:px-8">
       <PageHeader title="Create Tender" />
 
       <form onSubmit={handleSubmit} className="space-y-6">
