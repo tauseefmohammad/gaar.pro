@@ -24,7 +24,7 @@
     "next-auth": "^5.0.0-beta.31",
     "num-words": "^1.2.3",
     "number-to-words": "^1.2.4",
-    "radix-ui": "^1.4.3",
+    "radix-ui": "^1.6.2",
     "react": "19.2.4",
     "react-day-picker": "^10.0.1",
     "react-dom": "19.2.4",

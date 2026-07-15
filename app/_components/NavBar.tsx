@@ -1,7 +1,18 @@
 "use client";
-import { Bell, Menu } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { Bell, Menu, LogOut, User } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
 import React, { useEffect, useState } from "react";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+
 
 const NavBar = () => {
   const { data: session } = useSession();
@@ -38,22 +49,45 @@ const NavBar = () => {
       {/*Right side*/}
       <div className="flex justify-between items-center gap-5">
         <div className="hidden md:flex justify-between items-center gap-5">
-          <div className="flex items-center gap-3 cursor-pointer">
-            <div className="w-9 h-9">
-              {employeeData?.photo ? (
-                <img
-                  src={`/api/files/employees/${employeeData.photo}`}
-                  alt="User"
-                  className="w-9 h-9 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-9 h-9 rounded-full bg-gray-400 flex items-center justify-center text-white text-sm">
-                  {employeeData?.name?.charAt(0)?.toUpperCase()}
-                
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="p-0 rounded-full h-9 w-9">
+                <div className="w-9 h-9 cursor-pointer">
+                  {employeeData?.photo ? (
+                    <img
+                      src={`/api/files/employees/${employeeData.photo}`}
+                      alt="User"
+                      className="w-9 h-9 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-9 h-9 rounded-full bg-gray-400 flex items-center justify-center text-white text-sm">
+                      {employeeData?.name?.charAt(0)?.toUpperCase()}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
+              </Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel>
+                {employeeData?.name || username || "Account"}
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem>
+                <User className="mr-2 h-4 w-4" />
+                Profile
+              </DropdownMenuItem>
+
+              <DropdownMenuItem
+                onClick={() => signOut({ callbackUrl: "/login" })}
+                className="text-red-600 focus:text-red-600"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>
