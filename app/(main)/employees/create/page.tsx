@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 import EmployeeSearch from "@/app/_components/EmployeeSearch"
 
 export default function CreateEmployee() {
   const router = useRouter()
+  const orgId = useSession().data?.user?.orgId || "";
 
   const [form, setForm] = useState<any>(() => ({
     name: "",
@@ -28,8 +30,10 @@ export default function CreateEmployee() {
 
   // 🔹 Fetch Designations
   useEffect(() => {
+    //if (!orgId) return
     const fetchDesignation = async () => {
-      const orgId = localStorage.getItem("orgId")
+      //const orgId = localStorage.getItem("orgId")
+      
 
       const res = await fetch(
         `/api/system-list?listName=Designation&orgId=${orgId}`
@@ -45,7 +49,7 @@ export default function CreateEmployee() {
     }
 
     fetchDesignation()
-  }, [])
+  }, [orgId])
 
   // 🔹 Photo Preview
   useEffect(() => {
@@ -72,7 +76,7 @@ export default function CreateEmployee() {
 
   // 🔹 Manager Search
   const searchManager = async (val: string) => {
-    const tempOrgId = localStorage.getItem("orgId")
+    //const tempOrgId = localStorage.getItem("orgId")
     
     if (selectedManager) {
       setSelectedManager(null)
@@ -84,7 +88,7 @@ export default function CreateEmployee() {
       return
     }
 
-    const res = await fetch(`/api/user/search?search=${val}&orgId=${tempOrgId}`)
+    const res = await fetch(`/api/user/search?search=${val}&orgId=${orgId}`)
     const data = await res.json()
 
     setManagerList(Array.isArray(data?.data) ? data.data : [])
@@ -92,10 +96,14 @@ export default function CreateEmployee() {
 
   // 🔹 Submit
   const handleSubmit = async () => {
+    /*if (!orgId) {
+      console.error("No orgId found in session — aborting submit")
+      return
+    }*/
     setLoading(true)
 
     try {
-      const orgId = localStorage.getItem("orgId")
+      //const orgId = localStorage.getItem("orgId")
 
       const formData = new FormData()
 
@@ -105,7 +113,7 @@ export default function CreateEmployee() {
         }
       })
 
-      formData.append("orgId", orgId || "")
+      formData.append("orgId", orgId)
       if (photo) formData.append("photo", photo)
 
       await fetch("/api/employee", {
