@@ -27,16 +27,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         const user = await User.findOne({ username }).lean();
 
+        console.log("User found:", !!user);
+
         if (!user) {
+          console.log("No user");
           return null;
         }
 
         const isValid = await bcrypt.compare(password, user.password);
 
+        console.log("Password valid:", isValid);
+
         if (!isValid) {
+          console.log("Wrong password");
           return null;
         }
-
+        console.log("Returning user");
         return {
           id: user._id.toString(),
           name: user.employeeName ?? user.username,

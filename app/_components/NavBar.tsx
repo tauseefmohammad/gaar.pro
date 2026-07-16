@@ -22,12 +22,12 @@ const NavBar = () => {
 
   useEffect(() => {
     if (!session?.user?.orgId) return;
-    console.log(
-      "Fetching employee data for orgId:",
-      session.user.orgId,
-      "and username:",
-      username,
-    );
+    //console.log(
+    //  "Fetching employee data for orgId:",
+    //  session.user.orgId,
+    //  "and username:",
+    //  username,
+    //);
     fetch(
       `/api/employee/by-phone?orgId=${session.user.orgId}&phone=${username}`,
     )
@@ -35,9 +35,9 @@ const NavBar = () => {
       .then((data) => {
         console.log("Employee API response:", data);
         if (data) {
-          setEmployeeData(data);
+          setEmployeeData(data.data);
 
-          console.log("Employee data:", data);
+          //console.log("Employee data:", data);
         }
       });
   }, [session?.user?.orgId, username]);
@@ -63,8 +63,15 @@ const handleLogout = async () => {
                 <div className="w-9 h-9 cursor-pointer">
                   {employeeData?.photo ? (
                     <img
-                      src={`/api/files/employees/${employeeData.photo}`}
-                      alt="User"
+                       src={
+                    employeeData.photo
+                      ? `/api/files/employees/${employeeData.photo}`
+                      : "/default-avatar.jpg"
+                  }
+                  onError={(e) => {
+                    e.currentTarget.src = "/default-avatar.jpg";
+                  }}
+                  alt={employeeData.name}
                       className="w-9 h-9 rounded-full object-cover"
                     />
                   ) : (

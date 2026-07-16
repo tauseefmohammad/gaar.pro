@@ -127,6 +127,22 @@ const TenderInfoSchema = new mongoose.Schema(
     isMAFRequired: {
       type: Boolean,
     },
+    //This is the person who is responsible for floating the tender.
+    tenderManager: {
+      type: String,
+    },
+    tenderManagerEmail: {
+      type: String,
+    },
+    tenderManagerPhone: {
+      type: String,
+    },
+    tenderOwner: {
+      type: String,
+    },
+    scm: {
+      type: String,
+    },
     clientId: {
       type: String,
     },
