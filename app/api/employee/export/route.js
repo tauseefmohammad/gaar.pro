@@ -1,5 +1,6 @@
 import { connectDB } from "@/lib/mongoose";
 import Employee from "@/models/Employee";
+import User from "@/models/User";
 import * as XLSX from "xlsx";
 
 export async function GET(req) {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import connectDB from "@/lib/mongoose"
 import Employee from "@/models/Employee"
+import User from "@/models/User"
 
 export async function GET(req) {
   await connectDB()
@@ -17,9 +18,9 @@ export async function GET(req) {
     ...(search
       ? {
           $or: [
-            { name: { $regex: search, $options: "i" } },
-            { empId: { $regex: search, $options: "i" } },
-            { designation: { $regex: search, $options: "i" } },
+            { employeeName: { $regex: search, $options: "i" } },
+            { username: { $regex: search, $options: "i" } },
+            { role: { $regex: search, $options: "i" } },
             { status: { $regex: search, $options: "i" } },
           ],
         }
@@ -27,8 +28,8 @@ export async function GET(req) {
   }
 
   const [users, total] = await Promise.all([
-    Employee.find(query).skip(skip).limit(limit),
-    Employee.countDocuments(query),
+    User.find(query).skip(skip).limit(limit),
+    User.countDocuments(query),
   ])
 
   return NextResponse.json({ data: users, total })

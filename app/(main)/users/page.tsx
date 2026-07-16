@@ -106,8 +106,8 @@ export default function UserList() {
           <TableHeader className="sticky top-0 bg-cyan-200 z-20 shadow-sm">
             <TableRow>
               <TableHead className="w-20 text-center font-bold">Edit</TableHead>
-              <TableHead className="text-center font-bold">Name</TableHead>
-              <TableHead className="text-center font-bold">Emp ID</TableHead>
+              <TableHead className="text-center font-bold">EmpName</TableHead>
+              <TableHead className="text-center font-bold">UserName</TableHead>
               <TableHead className="text-center font-bold">Role</TableHead>
               <TableHead className="text-center font-bold">Status</TableHead>
             </TableRow>
@@ -129,18 +129,18 @@ export default function UserList() {
 
                   {/* Name */}
                   <TableCell className="text-center font-medium">
-                    {user.name}
+                    {user.employeeName}
                   </TableCell>
 
                   {/* Employee ID */}
                   <TableCell className="text-center">
-                    {user.empId || user.userId || "-"}
+                    {user.username|| "-"}
                   </TableCell>
 
                   {/* Role */}
                   <TableCell className="text-center">
                     <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-                      {user.designation || "-"}
+                      {user.role || "-"}
                     </span>
                   </TableCell>
 

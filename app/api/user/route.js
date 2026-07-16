@@ -17,13 +17,13 @@ export async function GET(req){
         const skip = (page-1) * limit;
         const orgId = searchParams.get('orgId');
                 
-        const [employees, total] = await Promise.all([
-            Employee.find({orgId: orgId}).skip(skip).limit(limit),
-            Employee.countDocuments({orgId: orgId})
+        const [users, total] = await Promise.all([
+            User.find({orgId: orgId}).skip(skip).limit(limit),
+            User.countDocuments({orgId: orgId})
         ]);
 
         return NextResponse.json({
-            data: employees,
+            data: users,
             page,
             limit,
             total,
