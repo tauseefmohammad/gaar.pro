@@ -39,18 +39,28 @@ export default function SignIn() {
         redirect: false,
       });
 
-      if (res?.ok) {
-        const session = await getSession();
-        const role = session?.user?.role;
-
-        const isPrivileged =
-          role && ["ADMIN", "SYS_ADMIN", "ACCOUNTS", "ORG_USER"].includes(role);
-
-        window.location.href = isPrivileged ? "/dashboard" : "/fund-request";
-        // router.push(isPrivileged ? "/dashboard" : "/fund-request");
-      } else {
-        alert("Either email or password do not match!");
+      if (res?.error) {
+        alert("Either username or password do not match!");
+        return;
       }
+
+      const session = await getSession();
+
+      if (!session) {
+        alert("Login failed.");
+        return;
+      }
+
+      const role = session.user.role;
+
+      const isPrivileged = [
+        "ADMIN",
+        "SYS_ADMIN",
+        "ACCOUNTS",
+        "ORG_USER",
+      ].includes(role);
+
+      window.location.href = isPrivileged ? "/dashboard" : "/fund-request";
     } catch (err) {
       alert("Either email or password do not match!");
     }
