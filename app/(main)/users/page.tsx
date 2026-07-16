@@ -106,8 +106,8 @@ export default function UserList() {
           <TableHeader className="sticky top-0 bg-cyan-200 z-20 shadow-sm">
             <TableRow>
               <TableHead className="w-20 text-center font-bold">Edit</TableHead>
-              <TableHead className="text-center font-bold">EmpName</TableHead>
               <TableHead className="text-center font-bold">UserName</TableHead>
+              <TableHead className="text-center font-bold">EmpName</TableHead>
               <TableHead className="text-center font-bold">Role</TableHead>
               <TableHead className="text-center font-bold">Status</TableHead>
             </TableRow>
@@ -126,15 +126,14 @@ export default function UserList() {
                       <Pencil size={16} />
                     </button>
                   </TableCell>
+                    {/* Employee ID */}
+                  <TableCell className="text-center">
+                    {user.username|| "-"}
+                  </TableCell>
 
                   {/* Name */}
                   <TableCell className="text-center font-medium">
                     {user.employeeName}
-                  </TableCell>
-
-                  {/* Employee ID */}
-                  <TableCell className="text-center">
-                    {user.username|| "-"}
                   </TableCell>
 
                   {/* Role */}

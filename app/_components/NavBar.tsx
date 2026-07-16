@@ -69,7 +69,7 @@ const handleLogout = async () => {
                     />
                   ) : (
                     <div className="w-9 h-9 rounded-full bg-gray-400 flex items-center justify-center text-white text-sm">
-                      {employeeData?.name?.charAt(0)?.toUpperCase()}
+                      {displayName?.charAt(0)?.toUpperCase()}
                     </div>
                   )}
                 </div>
@@ -77,15 +77,15 @@ const handleLogout = async () => {
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel>
+              <DropdownMenuLabel className="font-bold text-cyan-900">
                 {displayName}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
 
               
 
-              <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-md font-semibold text-cyan-900 focus:text-red-600 ">
-                <LogOut className="mr-2 h-4 w-4" />
+              <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-md font-bold text-cyan-900 focus:text-red-600 ">
+                <LogOut className="mr-2 h-4 w-4 text-black" />
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
