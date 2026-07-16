@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { useSession } from "next-auth/react"
-import EmployeeSearch from "@/app/_components/EmployeeSearch"
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import EmployeeSearch from "@/app/_components/EmployeeSearch";
 
 export default function CreateEmployee() {
-  const router = useRouter()
+  const router = useRouter();
   const orgId = useSession().data?.user?.orgId || "";
 
   const [form, setForm] = useState<any>(() => ({
@@ -17,82 +17,80 @@ export default function CreateEmployee() {
     designation: "",
     isManager: false,
     managerId: "",
-    managerName: ""
-  }))
+    managerName: "",
+  }));
 
-  const [photo, setPhoto] = useState<File | null>(null)
-  const [photoPreview, setPhotoPreview] = useState<string>("")
-  const [designations, setDesignations] = useState<any[]>([])
-  const [managerSearch, setManagerSearch] = useState("")
-  const [managerList, setManagerList] = useState<any[]>([])
-  const [selectedManager, setSelectedManager] = useState<any>(null) 
-  const [loading, setLoading] = useState(false)
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string>("");
+  const [designations, setDesignations] = useState<any[]>([]);
+  const [managerSearch, setManagerSearch] = useState("");
+  const [managerList, setManagerList] = useState<any[]>([]);
+  const [selectedManager, setSelectedManager] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
   // 🔹 Fetch Designations
   useEffect(() => {
     //if (!orgId) return
     const fetchDesignation = async () => {
-      //const orgId = localStorage.getItem("orgId")
+      const orgId = localStorage.getItem("orgId");
       
 
       const res = await fetch(
-        `/api/system-list?listName=Designation&orgId=${orgId}`
-      )
-      const data = await res.json()
-      console.log("Fetched Designations: ", data)
+        `/api/system-list?listName=Designation&orgId=${orgId}`,
+      );
+      const data = await res.json();
+      console.log("Fetched Designations: ", data);
 
       setDesignations(
-        Array.isArray(data?.data?.[0])
-          ? data.data[0]
-          : []
-      )
-    }
+        Array.isArray(data?.data?.[0]) ? data.data[0] : []);
+    };
 
-    fetchDesignation()
-  }, [orgId])
+    fetchDesignation();
+  }, [orgId]);
 
   // 🔹 Photo Preview
   useEffect(() => {
     if (!photo) {
-      setPhotoPreview("")
-      return
+      setPhotoPreview("");
+      return;
     }
 
-    const url = URL.createObjectURL(photo)
-    setPhotoPreview(url)
+    const url = URL.createObjectURL(photo);
+    setPhotoPreview(url);
 
-    return () => URL.revokeObjectURL(url)
-  }, [photo])
+    return () => URL.revokeObjectURL(url);
+  }, [photo]);
 
   useEffect(() => {
-      const delay = setTimeout(() => {
-        if (managerSearch.length >= 3) {
-          searchManager(managerSearch)
-        }
-      }, 300)
 
-      return () => clearTimeout(delay)
-    }, [managerSearch])
+    const delay = setTimeout(() => {
+      if (managerSearch.length >= 3) {
+        searchManager(managerSearch);
+      }
+    }, 300);
+
+    return () => clearTimeout(delay);
+  }, [managerSearch]);
 
   // 🔹 Manager Search
   const searchManager = async (val: string) => {
-    //const tempOrgId = localStorage.getItem("orgId")
+    //const tempOrgId = localStorage.getItem("orgId");
     
     if (selectedManager) {
-      setSelectedManager(null)
+      setSelectedManager(null);
     }
-    setManagerSearch(val)
+    setManagerSearch(val);
 
     if (val.length < 3) {
-      setManagerList([])
-      return
+      setManagerList([]);
+      return;
     }
 
-    const res = await fetch(`/api/user/search?search=${val}&orgId=${orgId}`)
-    const data = await res.json()
+    const res = await fetch(`/api/user/search?search=${val}&orgId=${orgId}`,);
+    const data = await res.json();
 
-    setManagerList(Array.isArray(data?.data) ? data.data : [])
-  }
+    setManagerList(Array.isArray(data?.data) ? data.data : []);
+  };
 
   // 🔹 Submit
   const handleSubmit = async () => {
@@ -100,37 +98,37 @@ export default function CreateEmployee() {
       console.error("No orgId found in session — aborting submit")
       return
     }*/
-    setLoading(true)
+    setLoading(true);
 
     try {
-      //const orgId = localStorage.getItem("orgId")
+      //const orgId = localStorage.getItem("orgId");
 
-      const formData = new FormData()
+      const formData = new FormData();
 
       Object.entries(form || {}).forEach(([key, value]) => {
         if (value !== undefined && value !== null) {
-          formData.append(key, value as any)
+          formData.append(key, value as any);
         }
-      })
+      });
 
-      formData.append("orgId", orgId)
-      if (photo) formData.append("photo", photo)
+      formData.append("orgId", orgId);
+      if (photo) formData.append("photo", photo);
 
       await fetch("/api/employee", {
         method: "POST",
-        body: formData
-      })
+        body: formData,
+      });
 
-      router.push("/employees")
-      router.refresh()
+      router.push("/employees");
+      router.refresh();
     } catch (err) {
-      console.error(err)
+      console.error(err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  if (!form) return null
+  if (!form) return null;
 
   return (
     <div className="space-y-4 px-0 md:px-4 lg:px-8">
@@ -285,15 +283,15 @@ export default function CreateEmployee() {
               <EmployeeSearch
                 placeholder="Search manager..."
                 fetchUrl={(query) => {
-                  const orgId = localStorage.getItem("orgId")
-                  return `/api/user/search?search=${query}&orgId=${orgId}`
+                  const orgId = localStorage.getItem("orgId");
+                  return `/api/user/search?search=${query}&orgId=${orgId}`;
                 }}
                 onSelect={(m) => {
                   setForm({
                     ...form,
                     managerId: m._id,
-                    managerName: m.name
-                  })
+                    managerName: m.name,
+                  });
                 }}
               />
             </div>
@@ -319,5 +317,5 @@ export default function CreateEmployee() {
         </div>
       </div>
     </div>
-  )
+  );
 }
