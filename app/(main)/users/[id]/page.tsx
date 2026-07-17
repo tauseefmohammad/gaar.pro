@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 "use client";
 
 import { useEffect, useState } from "react";
@@ -17,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 
-const ROLE_OPTIONS = ["ADMIN","ORG_USER", "USER", "MANAGER", "ACCOUNTANT"];
+const ROLE_OPTIONS = ["ADMIN", "ORG_USER", "USER", "MANAGER", "ACCOUNTANT"];
 const STATUS_OPTIONS = ["Active", "InActive"];
 
 export default function EditUserPage() {
@@ -179,12 +178,3 @@ export default function EditUserPage() {
     </div>
   );
 }
-=======
-export default function UserPage() {
-  return (
-    <div>
-      <h1>User Page</h1>
-    </div>
-  );
-}
->>>>>>> b28ed96775b5fc115e265777acaef0df8e86d558
