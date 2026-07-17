@@ -105,9 +105,10 @@ export default function CreateEmployee() {
 
   return (
      <>
+      <div className="space-y-4 px-0 md:px-4 lg:px-8">
       <PageHeader title="Update Employee" />
 
-      <div className="container mx-auto max-w-7xl py-6">
+      <div className="container mx-auto max-w-7xl ">
         <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="text-2xl">Employee Information</CardTitle>
@@ -240,6 +241,7 @@ export default function CreateEmployee() {
             </div>
           </CardContent>
         </Card>
+      </div>
       </div>
     </>
   );

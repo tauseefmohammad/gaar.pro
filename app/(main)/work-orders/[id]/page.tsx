@@ -154,6 +154,7 @@ export default function EditWorkOrderPage() {
 
   return (
     <>
+    <div className="space-y-4 px-0 md:px-4 lg:px-8">
       <PageHeader title="Edit Work Order" />
 
       <div className="grid gap-6 lg:grid-cols-10">
@@ -490,11 +491,11 @@ export default function EditWorkOrderPage() {
               </Card>
               <Card>
                 <CardContent className="flex justify-end gap-3 p-6">
-                  <Button variant="outline" onClick={() => router.back()}>
+                  <Button variant="outline" onClick={() => router.back()} className="bg-orange-700 hover:bg-orange-500 text-white">
                     Cancel
                   </Button>
 
-                  <Button onClick={handleChange} disabled={saving}>
+                  <Button onClick={handleChange} disabled={saving} className="bg-cyan-900 hover:bg-cyan-700">
                     {saving ? "Saving..." : "Save Changes"}
                   </Button>
                 </CardContent>
@@ -509,6 +510,7 @@ export default function EditWorkOrderPage() {
             <Notes entityType="WORK ORDER" entityId={params.id} />
           </div>
         </div>
+      </div>
       </div>
     </>
   );

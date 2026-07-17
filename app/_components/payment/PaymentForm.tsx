@@ -301,9 +301,9 @@ export default function PaymentForm({ id }: { id?: string }) {
   );
 
   return (
-    <div className="p-4">
+    <div className="space-y-4 px-0 md:px-4 lg:px-8">
       {/* Header */}
-      <div className="bg-gradient-to-r from-cyan-500 to-cyan-900 text-white text-center py-3 rounded-xl text-lg font-semibold shadow">
+      <div className="bg-gradient-to-r from-cyan-500 to-cyan-900 text-white text-center py-2 rounded-xl text-lg font-semibold shadow">
         {id ? "Edit Payment" : "Create Payment"}
       </div>
 

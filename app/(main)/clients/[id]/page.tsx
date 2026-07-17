@@ -123,13 +123,16 @@ export default function EditClientPage() {
   };
 
   return (
-    <div className="p-6">
-      <div className="max-w-3xl mx-auto bg-white rounded-xl shadow p-6">
-        <h1 className="text-2xl font-semibold mb-6">Edit Client</h1>
-
+    <div className="space-y-4 px-0 md:px-4 lg:px-8">
+      <div>
+      <div className="rounded-md bg-linear-to-r from-cyan-700 to-cyan-900  text-white shadow-sm text-center">
+        <h1 className="text-xl font-semibold mb-6">Edit Client</h1>
+      </div>
+      <div className="p-4 space-y-6">
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Client Name */}
           <div className="space-y-2">
+            
             <Label>Client Name</Label>
 
             <Input
@@ -231,19 +234,26 @@ export default function EditClientPage() {
 
           {/* Buttons */}
           <div className="flex gap-3 pt-4">
-            <Button type="submit" disabled={loading}>
-              {loading ? "Updating..." : "Update Client"}
-            </Button>
+            <Button
+                  className="bg-cyan-900 hover:bg-cyan-700"
+                                   
+                >
+                  {loading ? "Updating..." : "Update Client"}
+                </Button>
+              
+            
 
             <Button
               type="button"
               variant="outline"
+              className="bg-orange-700 hover:bg-orange-500 text-white"
               onClick={() => router.back()}
             >
               Cancel
             </Button>
           </div>
         </form>
+        </div>
       </div>
     </div>
   );

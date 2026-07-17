@@ -181,7 +181,7 @@ export default function EditFR() {
   };
   // ---------------- UI ----------------
   return (
-    <div className="p-3 md:p-4 space-y-4">
+    <div className="space-y-4 px-0 md:px-4 lg:px-8">
       <PageHeader title="Edit Fund Request" />
 
       <div className="grid grid-cols-1 xl:grid-cols-5 gap-4">
@@ -657,7 +657,7 @@ export default function EditFR() {
         <div className="flex justify-end sticky bottom-0 bg-white py-3 border-t">
           <Button
             onClick={handleReject}
-            className="bg-red-900 hover:bg-red-600"
+            className="bg-orange-700 hover:bg-orange-500 text-white mr-3"
           >
             Reject
           </Button>

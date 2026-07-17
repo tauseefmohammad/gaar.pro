@@ -281,7 +281,7 @@ export default function EditTenderPage() {
   };
 
   return (
-    <div className="p-3 md:p-4">
+    <div className="space-y-4 px-0 md:px-4 lg:px-8">
       <PageHeader title="Edit Tender" />
 
       <div className="mt-4 grid grid-cols-1 xl:grid-cols-[70%_30%] gap-4">
