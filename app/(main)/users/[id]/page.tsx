@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client";
 
 import { useEffect, useState } from "react";
@@ -178,3 +179,12 @@ export default function EditUserPage() {
     </div>
   );
 }
+=======
+export default function UserPage() {
+  return (
+    <div>
+      <h1>User Page</h1>
+    </div>
+  );
+}
+>>>>>>> b28ed96775b5fc115e265777acaef0df8e86d558
