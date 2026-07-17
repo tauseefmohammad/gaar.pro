@@ -80,7 +80,13 @@ export default function EditClientPage() {
 
       const data = await res.json();
 
-      setStates(data?.data || []);
+      const normalized = Array.isArray(data?.data) // newly added to resolve the issue (from here to)
+      ? Array.isArray(data.data[0])
+        ? data.data[0]
+        : data.data
+      : [];// newly added to resolve the issue (until here)
+
+      setStates(normalized);
     } catch (error) {
       console.error(error);
     }

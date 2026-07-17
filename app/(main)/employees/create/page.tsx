@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 import EmployeeSearch from "@/app/_components/EmployeeSearch";
 
 export default function CreateEmployee() {
@@ -298,21 +299,22 @@ export default function CreateEmployee() {
           </div>
 
           {/* 🔹 Actions */}
-          <div className="flex justify-end gap-3 pt-4 border-t">
-            <button
-              onClick={() => router.push("/employees")}
-              className="px-4 py-2 rounded-xl bg-gray-200"
-            >
-              Cancel
-            </button>
-
-            <button
+          <div className="flex justify-end gap-4 pt-4 border-t">
+            <Button
               onClick={handleSubmit}
               disabled={loading}
-              className="px-6 py-2 rounded-xl bg-cyan-900 text-white"
+              className=" bg-cyan-900 hover:bg-cyan-600 hover:text-black"
             >
               {loading ? "Saving..." : "Save Employee"}
-            </button>
+            </Button>
+            <Button
+              onClick={() => router.push("/employees")}
+              className="bg-orange-700 hover:bg-orange-500 hover:text-black"
+            >
+              Cancel
+            </Button>
+
+            
           </div>
         </div>
       </div>

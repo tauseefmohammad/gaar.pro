@@ -500,16 +500,18 @@ export default function CreateReceivableForm() {
 
         {/* ACTIONS */}
         <div className="flex justify-end gap-4">
-          <Button variant="outline" onClick={() => router.push("/receivables")}>
-            Cancel
-          </Button>
-
           <Button
-            className="bg-cyan-900 hover:bg-cyan-700"
+            className="bg-cyan-900 hover:bg-cyan-600 hover:text-black"
             onClick={handleSubmit}
           >
             Create Receivable
           </Button>
+          <Button className="bg-orange-700 hover:bg-orange-500 hover:text-black" 
+          onClick={() => router.push("/receivables")}>
+            Cancel
+          </Button>
+
+          
         </div>
       </div>
     </div>

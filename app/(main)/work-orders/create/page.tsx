@@ -416,14 +416,19 @@ export default function CreateWorkOrderPage() {
           </div>
         </div>
 
-        <div className="mt-8 flex justify-end">
+        <div className="mt-8 flex justify-end gap-4">
           <Button
             onClick={saveWorkOrder}
             disabled={loading}
-            className="bg-cyan-900 hover:bg-cyan-700 rounded-xl px-8 shadow-lg"
+            className="bg-cyan-900 hover:bg-cyan-600 hover:text-black"
           >
             {loading ? "Saving..." : "Create Work Order"}
           </Button>
+          <Button className="bg-orange-700 hover:bg-orange-500 hover:text-black" 
+          onClick={() => router.push("/work-orders")}>
+            Cancel
+          </Button>
+          
         </div>
       </div>
     </div>

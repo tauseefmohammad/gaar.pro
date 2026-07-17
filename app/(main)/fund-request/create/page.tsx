@@ -645,13 +645,19 @@ export default function CreateFR() {
         </div>
 
         {/* SUBMIT */}
-        <div className="col-span-2 flex justify-end">
+        <div className="col-span-2 flex justify-end gap-4">
           <Button
             onClick={handleSubmit}
-            className="bg-cyan-900 hover:bg-cyan-600"
+            className="bg-cyan-900 hover:bg-cyan-600 hover:text-black"
           >
             Request
           </Button>
+          <Button className="bg-orange-700 hover:bg-orange-500 hover:text-black" 
+            onClick={() => router.push("/fund-request")}>
+            Cancel
+          </Button>
+
+          
         </div>
       </div>
     </div>

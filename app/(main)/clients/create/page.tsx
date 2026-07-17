@@ -172,18 +172,19 @@ export default function CreateClientPage() {
         </div>
       </div>
 
-      <div className="flex justify-end gap-2">
-        <Button variant="outline" onClick={() => router.push("/clients")}>
-          Cancel
-        </Button>
-
+      <div className="flex justify-end gap-4">
         <Button
           onClick={handleSave}
-          className="px-6 py-2 rounded-xl bg-cyan-900 text-white"
+          className=" bg-cyan-900 hover:bg-cyan-600 hover:text-black"
         >
           <Save className="h-4 w-4 mr-2" />
           Save
         </Button>
+        <Button className=" bg-orange-700 hover:bg-orange-500 hover:text-black" onClick={() => router.push("/clients")}>
+          Cancel
+        </Button>
+
+        
       </div>
     </div>
   );

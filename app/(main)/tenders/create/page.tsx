@@ -723,18 +723,17 @@ export default function CreateTenderPage() {
           </CardContent>
         </Card>
         {/* BUTTONS */}
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-4">
           <Button
             type="submit"
-            className="bg-cyan-900 hover:bg-cyan-700 rounded-xl px-8 shadow-lg"
+            className="bg-cyan-900 hover:bg-cyan-700 hover:text-black"
           >
             Create Tender
           </Button>
 
           <Button
-            variant="outline"
             onClick={() => router.push("/tenders")}
-            className="rounded-xl border-slate-300 hover:bg-slate-500"
+            className="bg-orange-700 hover:bg-orange-500 hover:text-black"
           >
             Cancel
           </Button>
