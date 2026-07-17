@@ -21,6 +21,8 @@ export default function CreateEmployee() {
     managerName: "",
   }));
 
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
+
   const [photo, setPhoto] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string>("");
   const [designations, setDesignations] = useState<any[]>([]);
@@ -31,10 +33,8 @@ export default function CreateEmployee() {
 
   // 🔹 Fetch Designations
   useEffect(() => {
-    //if (!orgId) return
     const fetchDesignation = async () => {
       const orgId = localStorage.getItem("orgId");
-      
 
       const res = await fetch(
         `/api/system-list?listName=Designation&orgId=${orgId}`,
@@ -42,8 +42,7 @@ export default function CreateEmployee() {
       const data = await res.json();
       console.log("Fetched Designations: ", data);
 
-      setDesignations(
-        Array.isArray(data?.data?.[0]) ? data.data[0] : []);
+      setDesignations(Array.isArray(data?.data?.[0]) ? data.data[0] : []);
     };
 
     fetchDesignation();
@@ -63,7 +62,6 @@ export default function CreateEmployee() {
   }, [photo]);
 
   useEffect(() => {
-
     const delay = setTimeout(() => {
       if (managerSearch.length >= 3) {
         searchManager(managerSearch);
@@ -75,8 +73,6 @@ export default function CreateEmployee() {
 
   // 🔹 Manager Search
   const searchManager = async (val: string) => {
-    //const tempOrgId = localStorage.getItem("orgId");
-    
     if (selectedManager) {
       setSelectedManager(null);
     }
@@ -87,23 +83,37 @@ export default function CreateEmployee() {
       return;
     }
 
-    const res = await fetch(`/api/user/search?search=${val}&orgId=${orgId}`,);
+    const res = await fetch(`/api/user/search?search=${val}&orgId=${orgId}`);
     const data = await res.json();
 
     setManagerList(Array.isArray(data?.data) ? data.data : []);
   };
 
+  // 🔹 Validation
+  const validate = () => {
+    const newErrors: Record<string, boolean> = {
+      name: !form.name.trim(),
+      employeeId: !form.employeeId.trim(),
+      phone: !form.phone.trim(),
+      email: !form.email.trim(),
+      designation: !form.designation.trim(),
+      managerName: !form.managerName.trim(),
+    };
+
+    setErrors(newErrors);
+
+    return !Object.values(newErrors).some(Boolean);
+  };
+
   // 🔹 Submit
   const handleSubmit = async () => {
-    /*if (!orgId) {
-      console.error("No orgId found in session — aborting submit")
-      return
-    }*/
+    if (!validate()) {
+      return;
+    }
+
     setLoading(true);
 
     try {
-      //const orgId = localStorage.getItem("orgId");
-
       const formData = new FormData();
 
       Object.entries(form || {}).forEach(([key, value]) => {
@@ -131,6 +141,11 @@ export default function CreateEmployee() {
 
   if (!form) return null;
 
+  const inputClass = (field: string) =>
+    `border p-2 rounded-xl w-full mt-1 ${
+      errors[field] ? "border-red-500" : ""
+    }`;
+
   return (
     <div className="space-y-4 px-0 md:px-4 lg:px-8">
 
@@ -151,12 +166,18 @@ export default function CreateEmployee() {
                 Employee Name
               </label>
               <input
-                className="border p-2 rounded-xl w-full mt-1"
+                className={inputClass("name")}
                 value={form.name}
-                onChange={(e) =>
-                  setForm({ ...form, name: e.target.value })
-                }
+                onChange={(e) => {
+                  setForm({ ...form, name: e.target.value });
+                  if (errors.name) setErrors({ ...errors, name: false });
+                }}
               />
+              {errors.name && (
+                <p className="text-red-500 text-xs mt-1">
+                  * This is Mandatory
+                </p>
+              )}
             </div>
 
             <div>
@@ -164,12 +185,19 @@ export default function CreateEmployee() {
                 Employee ID
               </label>
               <input
-                className="border p-2 rounded-xl w-full mt-1"
+                className={inputClass("employeeId")}
                 value={form.employeeId}
-                onChange={(e) =>
-                  setForm({ ...form, employeeId: e.target.value })
-                }
+                onChange={(e) => {
+                  setForm({ ...form, employeeId: e.target.value });
+                  if (errors.employeeId)
+                    setErrors({ ...errors, employeeId: false });
+                }}
               />
+              {errors.employeeId && (
+                <p className="text-red-500 text-xs mt-1">
+                  * This is Mandatory
+                </p>
+              )}
             </div>
           </div>
 
@@ -215,12 +243,18 @@ export default function CreateEmployee() {
                 Phone
               </label>
               <input
-                className="border p-2 rounded-xl w-full mt-1"
+                className={inputClass("phone")}
                 value={form.phone}
-                onChange={(e) =>
-                  setForm({ ...form, phone: e.target.value })
-                }
+                onChange={(e) => {
+                  setForm({ ...form, phone: e.target.value });
+                  if (errors.phone) setErrors({ ...errors, phone: false });
+                }}
               />
+              {errors.phone && (
+                <p className="text-red-500 text-xs mt-1">
+                  * This is Mandatory
+                </p>
+              )}
             </div>
 
             <div>
@@ -228,12 +262,18 @@ export default function CreateEmployee() {
                 Email
               </label>
               <input
-                className="border p-2 rounded-xl w-full mt-1"
+                className={inputClass("email")}
                 value={form.email}
-                onChange={(e) =>
-                  setForm({ ...form, email: e.target.value })
-                }
+                onChange={(e) => {
+                  setForm({ ...form, email: e.target.value });
+                  if (errors.email) setErrors({ ...errors, email: false });
+                }}
               />
+              {errors.email && (
+                <p className="text-red-500 text-xs mt-1">
+                  * This is Mandatory
+                </p>
+              )}
             </div>
           </div>
 
@@ -244,11 +284,13 @@ export default function CreateEmployee() {
                 Designation
               </label>
               <select
-                className="border p-2 rounded-xl w-full mt-1"
+                className={inputClass("designation")}
                 value={form.designation}
-                onChange={(e) =>
-                  setForm({ ...form, designation: e.target.value })
-                }
+                onChange={(e) => {
+                  setForm({ ...form, designation: e.target.value });
+                  if (errors.designation)
+                    setErrors({ ...errors, designation: false });
+                }}
               >
                 <option value="">Select Designation</option>
                 {(designations || []).map((d: any) => (
@@ -257,6 +299,11 @@ export default function CreateEmployee() {
                   </option>
                 ))}
               </select>
+              {errors.designation && (
+                <p className="text-red-500 text-xs mt-1">
+                  * This is Mandatory
+                </p>
+              )}
             </div>
 
             <div>
@@ -281,20 +328,35 @@ export default function CreateEmployee() {
               <label className="text-sm font-bold text-gray-600">
                 Search Manager
               </label>
-              <EmployeeSearch
-                placeholder="Search manager..."
-                fetchUrl={(query) => {
-                  const orgId = localStorage.getItem("orgId");
-                  return `/api/user/search?search=${query}&orgId=${orgId}`;
-                }}
-                onSelect={(m) => {
-                  setForm({
-                    ...form,
-                    managerId: m._id,
-                    managerName: m.name,
-                  });
-                }}
-              />
+              <div
+                className={
+                  errors.managerName
+                    ? "border border-red-500 rounded-xl"
+                    : ""
+                }
+              >
+                <EmployeeSearch
+                  placeholder="Search manager..."
+                  fetchUrl={(query) => {
+                    const orgId = localStorage.getItem("orgId");
+                    return `/api/user/search?search=${query}&orgId=${orgId}`;
+                  }}
+                  onSelect={(m) => {
+                    setForm({
+                      ...form,
+                      managerId: m._id,
+                      managerName: m.name,
+                    });
+                    if (errors.managerName)
+                      setErrors({ ...errors, managerName: false });
+                  }}
+                />
+              </div>
+              {errors.managerName && (
+                <p className="text-red-500 text-xs mt-1">
+                  * This is Mandatory
+                </p>
+              )}
             </div>
           </div>
 
@@ -313,8 +375,6 @@ export default function CreateEmployee() {
             >
               Cancel
             </Button>
-
-            
           </div>
         </div>
       </div>
