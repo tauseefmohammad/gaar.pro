@@ -97,7 +97,7 @@ export default function CreateEmployee() {
       phone: !form.phone.trim(),
       email: !form.email.trim(),
       designation: !form.designation.trim(),
-      managerName: !form.managerName.trim(),
+      //managerName: !form.managerName.trim(),
     };
 
     setErrors(newErrors);
@@ -174,7 +174,7 @@ export default function CreateEmployee() {
                 }}
               />
               {errors.name && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="text-red-500 text-xs mt-1 font-bold">
                   * This is Mandatory
                 </p>
               )}
@@ -194,7 +194,7 @@ export default function CreateEmployee() {
                 }}
               />
               {errors.employeeId && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="text-red-500 text-xs mt-1 font-bold">
                   * This is Mandatory
                 </p>
               )}
@@ -251,7 +251,7 @@ export default function CreateEmployee() {
                 }}
               />
               {errors.phone && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="text-red-500 text-xs mt-1 font-bold">
                   * This is Mandatory
                 </p>
               )}
@@ -270,7 +270,7 @@ export default function CreateEmployee() {
                 }}
               />
               {errors.email && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="text-red-500 text-xs mt-1 font-bold">
                   * This is Mandatory
                 </p>
               )}
@@ -300,7 +300,7 @@ export default function CreateEmployee() {
                 ))}
               </select>
               {errors.designation && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="text-red-500 text-xs mt-1 font-bold">
                   * This is Mandatory
                 </p>
               )}
