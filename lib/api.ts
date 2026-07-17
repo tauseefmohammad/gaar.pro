@@ -10,4 +10,5 @@ export async function api(url: string, options?: RequestInit) {
   if (!res.ok) throw new Error("API Error")
 
   return res.json()
+  // this amarenda edited 
 }
