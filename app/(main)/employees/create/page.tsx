@@ -141,7 +141,7 @@ export default function CreateEmployee() {
         </h1>
       </div>
 
-      <div className="pt-5">
+      <div className="pt-5 shadow-lg border-1 rounded-md">
         <div className="bg-white p-6 rounded-2xl shadow space-y-6">
 
           {/* 🔹 Row 1 */}
@@ -192,7 +192,7 @@ export default function CreateEmployee() {
               <label className="text-sm font-bold text-gray-600">
                 Photo Preview
               </label>
-              <div className="h-24 border rounded-xl flex items-center justify-center bg-gray-50 mt-1">
+              <div className="h-24 border rounded-xl flex items-center justify-center bg-gray-50 mt-1 w-full">
                 {photoPreview ? (
                   <img
                     src={photoPreview}
