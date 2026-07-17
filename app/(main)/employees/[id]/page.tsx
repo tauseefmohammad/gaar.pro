@@ -233,11 +233,14 @@ export default function CreateEmployee() {
               <Button
                 variant="outline"
                 onClick={() => router.push("/employees")}
+                className="bg-orange-700 hover:bg-orange-500 text-white"
               >
                 Cancel
               </Button>
 
-              <Button onClick={handleSubmit}>Save Employee</Button>
+              <Button onClick={handleSubmit} className="bg-cyan-900 hover:bg-cyan-700">
+                Save Employee
+              </Button>
             </div>
           </CardContent>
         </Card>

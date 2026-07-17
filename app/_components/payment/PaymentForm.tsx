@@ -900,14 +900,16 @@ export default function PaymentForm({ id }: { id?: string }) {
               <Button
                 variant="outline"
                 onClick={() => router.push("/payments")}
+                 className="bg-orange-700 hover:bg-orange-500 text-white"
               >
                 Cancel
               </Button>
 
               <Button
+               className="bg-cyan-900 hover:bg-cyan-700"
                 disabled={isPaymentLocked}
                 onClick={handleSubmit}
-                className="bg-cyan-900 hover:bg-cyan-700"
+               
               >
                 {id ? "Update" : "Create"}
               </Button>
