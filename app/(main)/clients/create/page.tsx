@@ -77,7 +77,10 @@ export default function CreateClientPage() {
 
   return (
     <div className="space-y-6 px-0 md:px-4 lg:px-8">
-      <PageHeader title="Create Client" />
+      {/* Title */}
+      <div className="bg-linear-to-r from-cyan-300 to-cyan-900 text-white text-center py-2 rounded-md">
+        <h1 className="text-xl font-semibold">Create Client</h1>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border rounded-lg p-25">
         <div className="space-y-2">

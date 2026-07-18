@@ -151,7 +151,7 @@ export default function CreateEmployee() {
 
       {/* 🔷 Title Bar */}
       <div className="bg-gradient-to-r from-cyan-300 to-cyan-900 text-white text-center py-2 rounded-md">
-        <h1 className="text-sm font-semibold tracking-wide">
+        <h1 className="text-xl font-semibold">
           Create New Employee
         </h1>
       </div>
@@ -162,8 +162,8 @@ export default function CreateEmployee() {
           {/* 🔹 Row 1 */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-bold text-gray-600">
-                Employee Name
+              <label className="font-bold">
+                Employee Name *
               </label>
               <input
                 className={inputClass("name")}
@@ -181,8 +181,8 @@ export default function CreateEmployee() {
             </div>
 
             <div>
-              <label className="text-sm font-bold text-gray-600">
-                Employee ID
+              <label className="font-bold">
+                Employee ID *
               </label>
               <input
                 className={inputClass("employeeId")}
@@ -204,7 +204,7 @@ export default function CreateEmployee() {
           {/* 🔹 Row 2 */}
           <div className="grid grid-cols-2 gap-4 items-center">
             <div>
-              <label className="text-sm font-bold text-gray-600">
+              <label className="font-bold">
                 Upload Photo
               </label>
               <input
@@ -217,7 +217,7 @@ export default function CreateEmployee() {
             </div>
 
             <div>
-              <label className="text-sm font-bold text-gray-600">
+              <label className="font-bold">
                 Photo Preview
               </label>
               <div className="h-24 border rounded-xl flex items-center justify-center bg-gray-50 mt-1 w-full">
@@ -239,8 +239,8 @@ export default function CreateEmployee() {
           {/* 🔹 Row 3 */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-bold text-gray-600">
-                Phone
+              <label className="font-bold">
+                Phone *
               </label>
               <input
                 className={inputClass("phone")}
@@ -258,8 +258,8 @@ export default function CreateEmployee() {
             </div>
 
             <div>
-              <label className="text-sm font-bold text-gray-600">
-                Email
+              <label className="font-bold">
+                Email *
               </label>
               <input
                 className={inputClass("email")}
@@ -280,8 +280,8 @@ export default function CreateEmployee() {
           {/* 🔹 Row 4 */}
           <div className="grid grid-cols-2 gap-4 items-center">
             <div>
-              <label className="text-sm font-bold text-gray-600">
-                Designation
+              <label className="font-bold">
+                Designation *
               </label>
               <select
                 className={inputClass("designation")}
@@ -325,16 +325,9 @@ export default function CreateEmployee() {
           {/* 🔹 Row 5 */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-bold text-gray-600">
+              <label className="font-bold">
                 Search Manager
               </label>
-              <div
-                className={
-                  errors.managerName
-                    ? "border border-red-500 rounded-xl"
-                    : ""
-                }
-              >
                 <EmployeeSearch
                   placeholder="Search manager..."
                   fetchUrl={(query) => {
@@ -347,16 +340,8 @@ export default function CreateEmployee() {
                       managerId: m._id,
                       managerName: m.name,
                     });
-                    if (errors.managerName)
-                      setErrors({ ...errors, managerName: false });
                   }}
                 />
-              </div>
-              {errors.managerName && (
-                <p className="text-red-500 text-xs mt-1">
-                  * This is Mandatory
-                </p>
-              )}
             </div>
           </div>
 

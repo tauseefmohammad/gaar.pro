@@ -86,7 +86,10 @@ export default function WorkOrdersPage() {
 
   return (
     <div className="space-y-4 px-0 md:px-4 lg:px-8">
-      <PageHeader title="Work Orders" />
+      {/* Title */}
+      <div className="bg-linear-to-r from-cyan-300 to-cyan-900 text-white text-center py-2 rounded-md">
+        <h1 className="text-xl font-semibold">Work Orders</h1>
+      </div>
 
       {/* Toolbar */}
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">

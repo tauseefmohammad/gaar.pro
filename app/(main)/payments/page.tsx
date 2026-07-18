@@ -99,8 +99,10 @@ export default function PaymentList() {
 
   return (
     <div className="space-y-4 px-0 md:px-4 lg:px-8">
-      {/* Header */}
-      <PageHeader title="Payments" />
+      {/* Title */}
+      <div className="bg-linear-to-r from-cyan-300 to-cyan-900 text-white text-center py-2 rounded-md">
+        <h1 className="text-xl font-semibold">Payments</h1>
+      </div>
 
       <div className="flex justify-between items-center flex-wrap gap-4">
         {/* Search */}

@@ -60,7 +60,7 @@ export default function UserList() {
     <div className="space-y-4 px-0 md:px-4 lg:px-8">
       {/* Title */}
       <div className="bg-linear-to-r from-cyan-300 to-cyan-900 text-white text-center py-2 rounded-md">
-        <h1 className="text-lg font-semibold">Users</h1>
+        <h1 className="text-xl font-semibold">Users</h1>
       </div>
 
       {/* Controls */}

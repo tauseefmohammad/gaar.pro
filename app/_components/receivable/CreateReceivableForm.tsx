@@ -116,7 +116,7 @@ export default function CreateReceivableForm() {
 
   const renderUserSearch = (field: string, label: string) => (
     <div className="relative">
-      <Label>{label}</Label>
+      <Label className="font-bold">{label}</Label>
 
       <Input
         value={form[field] || ""}
@@ -158,7 +158,7 @@ export default function CreateReceivableForm() {
 
   const renderClientSearch = (field: string, label: string) => (
     <div className="relative">
-      <Label>{label}</Label>
+      <Label className="font-bold">{label}</Label>
 
       <Input
         value={form[field] || ""}
