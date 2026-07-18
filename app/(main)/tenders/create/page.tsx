@@ -1,4 +1,4 @@
-// app/dashboard/tenders/create/page.tsx
+// app/(main)/tenders/create/page.tsx
 
 "use client";
 
@@ -39,8 +39,8 @@ export default function CreateTenderPage() {
     tenderSubmissionLastDate: "",
     tenderOpeningDate: "",
     tenderValue: "",
-    state: "",
-    country: "",
+    state: "Telangana",
+    country: "India",
     emdAmount: "",
     bgAmount: "",
     documentFee: "",
@@ -55,6 +55,8 @@ export default function CreateTenderPage() {
     remarks: "",
     orgId: "",
   });
+
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [countries, setCountries] = useState<any[]>([]);
   const [states, setStates] = useState<any[]>([]);
   const [departmentSearch, setDepartmentSearch] = useState("");
@@ -78,6 +80,10 @@ export default function CreateTenderPage() {
       ...prev,
       [name]: value,
     }));
+
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: false }));
+    }
   }
 
   useEffect(() => {
@@ -92,8 +98,23 @@ export default function CreateTenderPage() {
         `/api/country-info/states?country=${country}`,
       );
 
-      setStates(await response.json());
-    } catch (error) {
+      const data = await response.json();
+      setStates(data);
+
+      // Keep default "Telangana" selected only if the user hasn't already picked a state
+      setFormData((prev) => {
+        if (prev.state && prev.state !== "Telangana") return prev; // user already picked something else, don't override
+
+        const match = data.find(
+          (s: any) => s.state?.toLowerCase() === "telangana",
+        );
+
+        return {
+          ...prev,
+         state: match ? match.state : prev.state,
+        };
+      });
+      } catch (error) {
       console.log(error);
     }
   };
@@ -216,8 +237,50 @@ export default function CreateTenderPage() {
     }));
   }, []);
 
+  // ---------------- VALIDATION ----------------
+  const validate = () => {
+    const newErrors: Record<string, boolean> = {
+      tenderNo: !formData.tenderNo.trim(),
+      owner: !formData.owner.trim(),
+      description: !formData.description.trim(),
+      tenderDate: !formData.tenderDate,
+      preBidMeetingDate: !formData.preBidMeetingDate,
+      tenderSubmissionLastDate: !formData.tenderSubmissionLastDate,
+      tenderOpeningDate: !formData.tenderOpeningDate,
+      vertical: !formData.vertical.trim(),
+      subVertical: !formData.subVertical.trim(),
+      country: !formData.country.trim(),
+      state: !formData.state.trim(),
+      emdAmount: !String(formData.emdAmount).trim(),
+      bgAmount: !String(formData.bgAmount).trim(),
+      documentFee: !String(formData.documentFee).trim(),
+      corpusFund: !String(formData.corpusFund).trim(),
+      transactionFee: !String(formData.transactionFee).trim(),
+      tenderingDepartment: !formData.tenderingDepartment.trim(),
+      client: !formData.client.trim(),
+    };
+
+    setErrors(newErrors);
+    return !Object.values(newErrors).some(Boolean);
+  };
+
+  const inputClass = (field: string) =>
+    errors[field] ? "border-red-500" : "";
+
+  const selectClass = (field: string) =>
+    `border rounded-lg p-2 w-full ${errors[field] ? "border-red-500" : ""}`;
+
+  const ErrorText = ({ field }: { field: string }) =>
+    errors[field] ? (
+      <p className="text-red-500 text-xs mt-1 font-bold">* This is Mandatory</p>
+    ) : null;
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (!validate()) {
+      return;
+    }
 
     try {
       const res = await fetch("/api/tender", {
@@ -259,11 +322,12 @@ export default function CreateTenderPage() {
   //Owner Search
   const renderUserSearch = (field: string, label: string) => (
     <div className="space-y-2 relative z-50">
-      <Label>{label}</Label>
+      <Label className="font-bold">{label} *</Label>
 
       <Input
         value={userSearch}
         placeholder={`Search ${label}`}
+        className={inputClass(field)}
         onFocus={() => setShowUserResults(true)}
         onChange={(e) => {
           const value = e.target.value;
@@ -275,6 +339,10 @@ export default function CreateTenderPage() {
             ...prev,
             owner: value,
           }));
+
+          if (errors[field]) {
+            setErrors((prev) => ({ ...prev, [field]: false }));
+          }
 
           searchUsers(value);
         }}
@@ -296,6 +364,10 @@ export default function CreateTenderPage() {
                 }));
                 setShowUserResults(false);
                 setUserResults([]);
+
+                if (errors[field]) {
+                  setErrors((prev) => ({ ...prev, [field]: false }));
+                }
               }}
             >
               {user.name}
@@ -303,6 +375,8 @@ export default function CreateTenderPage() {
           ))}
         </div>
       )}
+
+      <ErrorText field={field} />
     </div>
   );
 
@@ -336,13 +410,14 @@ export default function CreateTenderPage() {
 
           <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-visible">
             <div className="space-y-2">
-              <Label className="font-bold">Tender No</Label>
+              <Label className="font-bold">Tender No *</Label>
               <Input
                 name="tenderNo"
                 value={formData.tenderNo}
                 onChange={handleChange}
-                required
+                className={inputClass("tenderNo")}
               />
+              <ErrorText field="tenderNo" />
             </div>
 
             {renderUserSearch("owner", "Owner")}
@@ -374,71 +449,84 @@ export default function CreateTenderPage() {
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <Label className="font-bold">Description</Label>
+              <Label className="font-bold">Description *</Label>
 
               <Textarea
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
+                className={inputClass("description")}
               />
+              <ErrorText field="description" />
             </div>
 
             <div className="space-y-2">
-              <Label className="font-bold">Tender Date</Label>
+              <Label className="font-bold">Tender Date *</Label>
 
               <Input
                 type="datetime-local"
                 name="tenderDate"
                 value={formData.tenderDate?.slice(0, 16)}
                 onChange={handleChange}
+                className={inputClass("tenderDate")}
               />
+              <ErrorText field="tenderDate" />
             </div>
 
             <div className="space-y-2">
-              <Label className="font-bold">Pre-Bid Meeting Date</Label>
+              <Label className="font-bold">Pre-Bid Meeting Date *</Label>
 
               <Input
                 type="datetime-local"
                 name="preBidMeetingDate"
                 value={formData.preBidMeetingDate?.slice(0, 16)}
                 onChange={handleChange}
+                className={inputClass("preBidMeetingDate")}
               />
+              <ErrorText field="preBidMeetingDate" />
             </div>
 
             <div className="space-y-2">
-              <Label className="font-bold">Tender Submission Date</Label>
+              <Label className="font-bold">Tender Submission Date *</Label>
 
               <Input
                 type="datetime-local"
                 name="tenderSubmissionLastDate"
                 value={formData.tenderSubmissionLastDate?.slice(0, 16)}
                 onChange={handleChange}
+                className={inputClass("tenderSubmissionLastDate")}
               />
+              <ErrorText field="tenderSubmissionLastDate" />
             </div>
 
             <div className="space-y-2">
-              <Label className="font-bold">Tender Opening Date</Label>
+              <Label className="font-bold">Tender Opening Date *</Label>
 
               <Input
                 type="datetime-local"
                 name="tenderOpeningDate"
                 value={formData.tenderOpeningDate?.slice(0, 16)}
                 onChange={handleChange}
+                className={inputClass("tenderOpeningDate")}
               />
+              <ErrorText field="tenderOpeningDate" />
             </div>
             <div>
-              <label className="font-bold">Vertical</label>
+              <label className="font-bold">Vertical *</label>
 
               <select
-                className="border rounded-lg p-2 w-full"
+                className={selectClass("vertical")}
                 value={formData.vertical}
-                onChange={(e) =>
+                onChange={(e) => {
                   setFormData({
                     ...formData,
                     vertical: e.target.value,
                     subVertical: "",
-                  })
-                }
+                  });
+                  if (errors.vertical) {
+                    setErrors((prev) => ({ ...prev, vertical: false }));
+                  }
+                }}
               >
                 <option value="">Select</option>
 
@@ -448,21 +536,25 @@ export default function CreateTenderPage() {
                   </option>
                 ))}
               </select>
+              <ErrorText field="vertical" />
             </div>
 
             {/* SUB VERTICAL */}
             <div>
-              <label className="font-bold">Sub Vertical</label>
+              <label className="font-bold">Sub Vertical *</label>
 
               <select
-                className="border rounded-lg p-2 w-full"
+                className={selectClass("subVertical")}
                 value={formData.subVertical}
-                onChange={(e) =>
+                onChange={(e) => {
                   setFormData({
                     ...formData,
                     subVertical: e.target.value,
-                  })
-                }
+                  });
+                  if (errors.subVertical) {
+                    setErrors((prev) => ({ ...prev, subVertical: false }));
+                  }
+                }}
               >
                 <option value="">Select</option>
 
@@ -472,19 +564,24 @@ export default function CreateTenderPage() {
                   </option>
                 ))}
               </select>
+              <ErrorText field="subVertical" />
             </div>
             <div>
               <label className="font-bold">Country *</label>
 
               <select
-                className="border rounded-lg p-2 w-full"
+                className={selectClass("country")}
                 value={formData.country}
-                onChange={(e) =>
+                onChange={(e) => {
                   setFormData({
                     ...formData,
                     country: e.target.value,
-                  })
-                }
+                    state: "", // reset state when country changes manually
+                  });
+                  if (errors.country) {
+                    setErrors((prev) => ({ ...prev, country: false }));
+                  }
+                }}
               >
                 <option value="">Select</option>
 
@@ -494,20 +591,24 @@ export default function CreateTenderPage() {
                   </option>
                 ))}
               </select>
+              <ErrorText field="country" />
             </div>
 
             <div>
               <label className="font-bold">State *</label>
 
               <select
-                className="border rounded-lg p-2 w-full"
+                className={selectClass("state")}
                 value={formData.state}
-                onChange={(e) =>
+                onChange={(e) => {
                   setFormData({
                     ...formData,
                     state: e.target.value,
-                  })
-                }
+                  });
+                  if (errors.state) {
+                    setErrors((prev) => ({ ...prev, state: false }));
+                  }
+                }}
               >
                 <option value="">Select</option>
 
@@ -517,6 +618,7 @@ export default function CreateTenderPage() {
                   </option>
                 ))}
               </select>
+              <ErrorText field="state" />
             </div>
           </CardContent>
         </Card>
@@ -535,68 +637,88 @@ export default function CreateTenderPage() {
 
           <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label className="font-bold">EMD Amount</Label>
+              <Label className="font-bold">EMD Amount *</Label>
               <AmountToWords
                 amount={formData.emdAmount}
-                onChange={(val) =>
+                onChange={(val) => {
                   setFormData({
                     ...formData,
                     emdAmount: val,
-                  })
-                }
+                  });
+                  if (errors.emdAmount) {
+                    setErrors((prev) => ({ ...prev, emdAmount: false }));
+                  }
+                }}
               />
+              <ErrorText field="emdAmount" />
             </div>
 
             <div className="space-y-2">
-              <Label className="font-bold">BG Amount</Label>
+              <Label className="font-bold">BG Amount *</Label>
               <AmountToWords
                 amount={formData.bgAmount}
-                onChange={(val) =>
+                onChange={(val) => {
                   setFormData({
                     ...formData,
                     bgAmount: val,
-                  })
-                }
+                  });
+                  if (errors.bgAmount) {
+                    setErrors((prev) => ({ ...prev, bgAmount: false }));
+                  }
+                }}
               />
+              <ErrorText field="bgAmount" />
             </div>
 
             <div className="space-y-2">
-              <Label className="font-bold">Document Fee</Label>
+              <Label className="font-bold">Document Fee *</Label>
               <AmountToWords
                 amount={formData.documentFee}
-                onChange={(val) =>
+                onChange={(val) => {
                   setFormData({
                     ...formData,
                     documentFee: val,
-                  })
-                }
+                  });
+                  if (errors.documentFee) {
+                    setErrors((prev) => ({ ...prev, documentFee: false }));
+                  }
+                }}
               />
+              <ErrorText field="documentFee" />
             </div>
 
             <div className="space-y-2">
-              <Label className="font-bold">Corpus Fund</Label>
+              <Label className="font-bold">Corpus Fund *</Label>
               <AmountToWords
                 amount={formData.corpusFund}
-                onChange={(val) =>
+                onChange={(val) => {
                   setFormData({
                     ...formData,
                     corpusFund: val,
-                  })
-                }
+                  });
+                  if (errors.corpusFund) {
+                    setErrors((prev) => ({ ...prev, corpusFund: false }));
+                  }
+                }}
               />
+              <ErrorText field="corpusFund" />
             </div>
 
             <div className="space-y-2">
-              <Label className="font-bold">Transaction Fee</Label>
+              <Label className="font-bold">Transaction Fee *</Label>
               <AmountToWords
                 amount={formData.transactionFee}
-                onChange={(val) =>
+                onChange={(val) => {
                   setFormData({
                     ...formData,
                     transactionFee: val,
-                  })
-                }
+                  });
+                  if (errors.transactionFee) {
+                    setErrors((prev) => ({ ...prev, transactionFee: false }));
+                  }
+                }}
               />
+              <ErrorText field="transactionFee" />
             </div>
           </CardContent>
         </Card>
@@ -616,11 +738,12 @@ export default function CreateTenderPage() {
           <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-visible">
             {/* Department */}
             <div className="space-y-2 relative z-50">
-              <Label className="font-bold">Tendering Department</Label>
+              <Label className="font-bold">Tendering Department *</Label>
 
               <Input
                 placeholder="Search by name or id"
                 value={departmentSearch || formData.tenderingDepartment}
+                className={inputClass("tenderingDepartment")}
                 onChange={(e) => {
                   setDepartmentSearch(e.target.value);
 
@@ -628,6 +751,13 @@ export default function CreateTenderPage() {
                     ...prev,
                     tenderingDepartment: e.target.value,
                   }));
+
+                  if (errors.tenderingDepartment) {
+                    setErrors((prev) => ({
+                      ...prev,
+                      tenderingDepartment: false,
+                    }));
+                  }
                 }}
               />
 
@@ -647,6 +777,13 @@ export default function CreateTenderPage() {
                         setDepartmentSearch("");
 
                         setDepartmentResults([]);
+
+                        if (errors.tenderingDepartment) {
+                          setErrors((prev) => ({
+                            ...prev,
+                            tenderingDepartment: false,
+                          }));
+                        }
                       }}
                     >
                       {item.client}
@@ -654,15 +791,17 @@ export default function CreateTenderPage() {
                   ))}
                 </div>
               )}
+              <ErrorText field="tenderingDepartment" />
             </div>
 
             {/* Client */}
             <div className="space-y-2 relative z-50">
-              <Label className="font-bold">Client</Label>
+              <Label className="font-bold">Client *</Label>
 
               <Input
                 placeholder="Search by name or id"
                 value={clientSearch || formData.client}
+                className={inputClass("client")}
                 onChange={(e) => {
                   setClientSearch(e.target.value);
 
@@ -670,6 +809,10 @@ export default function CreateTenderPage() {
                     ...prev,
                     client: e.target.value,
                   }));
+
+                  if (errors.client) {
+                    setErrors((prev) => ({ ...prev, client: false }));
+                  }
                 }}
               />
 
@@ -689,6 +832,10 @@ export default function CreateTenderPage() {
                         setClientSearch("");
 
                         setClientResults([]);
+
+                        if (errors.client) {
+                          setErrors((prev) => ({ ...prev, client: false }));
+                        }
                       }}
                     >
                       {item.client}
@@ -696,6 +843,7 @@ export default function CreateTenderPage() {
                   ))}
                 </div>
               )}
+              <ErrorText field="client" />
             </div>
           </CardContent>
         </Card>
