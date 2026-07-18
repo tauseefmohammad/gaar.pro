@@ -57,6 +57,32 @@ export default function CreateWorkOrderPage() {
     orgId: session?.user?.orgId || "",
   });
 
+  // 🔹 Validation
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
+
+  const validate = () => {
+    const newErrors: Record<string, boolean> = {
+      woNo: !formData.woNo.trim(),
+      woTitle: !formData.woTitle.trim(),
+      woDate: !formData.woDate.trim(),
+      woType: !formData.woType.trim(),
+      tenderNo: !formData.tenderNo.trim(),
+      woValue: !formData.woValue || formData.woValue <= 0,
+      vertical: !formData.vertical.trim(),
+      subVertical: !formData.subVertical.trim(),
+      country: !formData.country.trim(),
+      state: !formData.state.trim(),
+      projectCompletionDate: !formData.projectCompletionDate.trim(),
+      client: !formData.client.trim(),
+      bgAmount: !formData.bgAmount || formData.bgAmount <= 0,
+      bgMaturityDate: !formData.bgMaturityDate.trim(),
+    };
+
+    setErrors(newErrors);
+
+    return !Object.values(newErrors).some(Boolean);
+  };
+
   const normalizeList = (data: any) => {
     if (!data) return [];
     if (Array.isArray(data)) return data;
@@ -139,9 +165,16 @@ export default function CreateWorkOrderPage() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: false });
+    }
   };
 
   const saveWorkOrder = async () => {
+    if (!validate()) {
+      return;
+    }
+
     try {
       setLoading(true);
 
@@ -180,7 +213,17 @@ export default function CreateWorkOrderPage() {
           {/* WO No */}
           <div>
             <Label className="font-bold">Work Order No</Label>
-            <Input name="woNo" value={formData.woNo} onChange={handleChange} />
+            <Input
+              name="woNo"
+              className={errors.woNo ? "border-red-500" : ""}
+              value={formData.woNo}
+              onChange={handleChange}
+            />
+            {errors.woNo && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
           </div>
 
           {/* WO Title */}
@@ -188,9 +231,15 @@ export default function CreateWorkOrderPage() {
             <Label className="font-bold">Work Order Title</Label>
             <Input
               name="woTitle"
+              className={errors.woTitle ? "border-red-500" : ""}
               value={formData.woTitle}
               onChange={handleChange}
             />
+            {errors.woTitle && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
           </div>
 
           {/* WO Date */}
@@ -199,16 +248,22 @@ export default function CreateWorkOrderPage() {
             <Input
               type="date"
               name="woDate"
+              className={errors.woDate ? "border-red-500" : ""}
               value={formData.woDate}
               onChange={handleChange}
             />
+            {errors.woDate && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
           </div>
 
           {/* WO Type */}
           <div>
             <Label className="font-bold">WO Type</Label>
             <select
-              className="border rounded-lg p-2 w-full"
+              className={`border rounded-lg p-2 w-full ${errors.woType ? "border-red-500" : ""}`}
               name="woType"
               value={formData.woType}
               onChange={handleChange}
@@ -220,48 +275,73 @@ export default function CreateWorkOrderPage() {
                 </option>
               ))}
             </select>
+            {errors.woType && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
           </div>
 
           {/* Tender Search */}
           <div className="relative">
             <Label className="font-bold">Tender No</Label>
 
-            <TenderSearchCB
-              orgId={session?.user?.orgId ?? ""}
-              value={formData.tenderNo}
-              onSelect={(tender) =>
-                setFormData({
-                  ...formData,
+            <div className={errors.tenderNo ? "border border-red-500 rounded-md" : ""}>
+              <TenderSearchCB
+                orgId={session?.user?.orgId ?? ""}
+                value={formData.tenderNo}
+                onSelect={(tender) => {
+                  setFormData({
+                    ...formData,
 
-                  tenderNo: tender.tenderNo,
-                  tenderDesc: tender.description,
+                    tenderNo: tender.tenderNo,
+                    tenderDesc: tender.description,
 
-                  woValue: tender.tenderValue ?? 0,
-                  country: tender.country || "",
-                  state: tender.state || "",
-                  vertical: tender.vertical || "",
-                  subVertical: tender.subVertical || "",
-                  bgAmount: tender.bgAmount ?? 0,
+                    woValue: tender.tenderValue ?? 0,
+                    country: tender.country || "",
+                    state: tender.state || "",
+                    vertical: tender.vertical || "",
+                    subVertical: tender.subVertical || "",
+                    bgAmount: tender.bgAmount ?? 0,
 
-                  client: tender.client || "",
-                  clientId: tender.clientId || "",
-                })
-              }
-            />
+                    client: tender.client || "",
+                    clientId: tender.clientId || "",
+                  });
+                  if (errors.tenderNo) {
+                    setErrors({ ...errors, tenderNo: false });
+                  }
+                }}
+              />
+            </div>
+            {errors.tenderNo && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
           </div>
 
           {/* WO Value */}
           <div>
             <Label className="font-bold">WO Value</Label>
-            <AmountToWords
-              amount={String(formData.woValue)}
-              onChange={(val) =>
-                setFormData({
-                  ...formData,
-                  woValue: Number(val),
-                })
-              }
-            />
+            <div className={errors.woValue ? "border border-red-500 rounded-md" : ""}>
+              <AmountToWords
+                amount={String(formData.woValue)}
+                onChange={(val) => {
+                  setFormData({
+                    ...formData,
+                    woValue: Number(val),
+                  });
+                  if (errors.woValue) {
+                    setErrors({ ...errors, woValue: false });
+                  }
+                }}
+              />
+            </div>
+            {errors.woValue && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
           </div>
 
           {/* Tender Name */}
@@ -274,15 +354,18 @@ export default function CreateWorkOrderPage() {
             <label className="font-bold">Vertical</label>
 
             <select
-              className="border rounded-lg p-2 w-full"
+              className={`border rounded-lg p-2 w-full ${errors.vertical ? "border-red-500" : ""}`}
               value={formData.vertical}
-              onChange={(e) =>
+              onChange={(e) => {
                 setFormData({
                   ...formData,
                   vertical: e.target.value,
                   subVertical: "",
-                })
-              }
+                });
+                if (errors.vertical) {
+                  setErrors({ ...errors, vertical: false });
+                }
+              }}
             >
               <option value="">Select</option>
 
@@ -292,6 +375,11 @@ export default function CreateWorkOrderPage() {
                 </option>
               ))}
             </select>
+            {errors.vertical && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
           </div>
 
           {/* SUB VERTICAL */}
@@ -299,14 +387,17 @@ export default function CreateWorkOrderPage() {
             <label className="font-bold">Sub Vertical</label>
 
             <select
-              className="border rounded-lg p-2 w-full"
+              className={`border rounded-lg p-2 w-full ${errors.subVertical ? "border-red-500" : ""}`}
               value={formData.subVertical}
-              onChange={(e) =>
+              onChange={(e) => {
                 setFormData({
                   ...formData,
                   subVertical: e.target.value,
-                })
-              }
+                });
+                if (errors.subVertical) {
+                  setErrors({ ...errors, subVertical: false });
+                }
+              }}
             >
               <option value="">Select</option>
 
@@ -316,19 +407,27 @@ export default function CreateWorkOrderPage() {
                 </option>
               ))}
             </select>
+            {errors.subVertical && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
           </div>
           <div>
             <label className="font-bold">Country *</label>
 
             <select
-              className="border rounded-lg p-2 w-full"
+              className={`border rounded-lg p-2 w-full ${errors.country ? "border-red-500" : ""}`}
               value={formData.country}
-              onChange={(e) =>
+              onChange={(e) => {
                 setFormData({
                   ...formData,
                   country: e.target.value,
-                })
-              }
+                });
+                if (errors.country) {
+                  setErrors({ ...errors, country: false });
+                }
+              }}
             >
               <option value="">Select</option>
 
@@ -338,20 +437,28 @@ export default function CreateWorkOrderPage() {
                 </option>
               ))}
             </select>
+            {errors.country && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
           </div>
 
           <div>
             <label className="font-bold">State *</label>
 
             <select
-              className="border rounded-lg p-2 w-full"
+              className={`border rounded-lg p-2 w-full ${errors.state ? "border-red-500" : ""}`}
               value={formData.state}
-              onChange={(e) =>
+              onChange={(e) => {
                 setFormData({
                   ...formData,
                   state: e.target.value,
-                })
-              }
+                });
+                if (errors.state) {
+                  setErrors({ ...errors, state: false });
+                }
+              }}
             >
               <option value="">Select</option>
 
@@ -361,6 +468,11 @@ export default function CreateWorkOrderPage() {
                 </option>
               ))}
             </select>
+            {errors.state && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
           </div>
           {/* Project Completion Date */}
           <div>
@@ -368,40 +480,66 @@ export default function CreateWorkOrderPage() {
             <Input
               type="date"
               name="projectCompletionDate"
+              className={errors.projectCompletionDate ? "border-red-500" : ""}
               value={formData.projectCompletionDate}
               onChange={handleChange}
             />
+            {errors.projectCompletionDate && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
           </div>
 
           {/* Client */}
           <div>
             <Label className="font-bold">Client</Label>
-            <ClientSearch
-              orgId={session?.user?.orgId ?? ""}
-              value={formData.client}
-              onSelect={(client) =>
-                setFormData({
-                  ...formData,
+            <div className={errors.client ? "border border-red-500 rounded-md" : ""}>
+              <ClientSearch
+                orgId={session?.user?.orgId ?? ""}
+                value={formData.client}
+                onSelect={(client) => {
+                  setFormData({
+                    ...formData,
 
-                  clientId: client._id,
-                  client: client.client,
-                })
-              }
-            />
+                    clientId: client._id,
+                    client: client.client,
+                  });
+                  if (errors.client) {
+                    setErrors({ ...errors, client: false });
+                  }
+                }}
+              />
+            </div>
+            {errors.client && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
           </div>
 
           {/* BG Amount */}
           <div>
             <Label className="font-bold">BG Amount</Label>
-            <AmountToWords
-              amount={String(formData.bgAmount)}
-              onChange={(val) =>
-                setFormData({
-                  ...formData,
-                  bgAmount: Number(val),
-                })
-              }
-            />
+            <div className={errors.bgAmount ? "border border-red-500 rounded-md" : ""}>
+              <AmountToWords
+                amount={String(formData.bgAmount)}
+                onChange={(val) => {
+                  setFormData({
+                    ...formData,
+                    bgAmount: Number(val),
+                  });
+                  if (errors.bgAmount) {
+                    setErrors({ ...errors, bgAmount: false });
+                  }
+                }}
+              />
+            </div>
+            {errors.bgAmount && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
           </div>
 
           {/* BG Maturity Date */}
@@ -410,9 +548,15 @@ export default function CreateWorkOrderPage() {
             <Input
               type="date"
               name="bgMaturityDate"
+              className={errors.bgMaturityDate ? "border-red-500" : ""}
               value={formData.bgMaturityDate}
               onChange={handleChange}
             />
+            {errors.bgMaturityDate && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
           </div>
         </div>
 

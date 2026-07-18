@@ -28,6 +28,8 @@ export default function CreateClientPage() {
     orgId: orgId,
   });
 
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
+
   const normalizeList = (data: any) => {
     if (!data) return [];
     if (Array.isArray(data)) return data;
@@ -53,7 +55,27 @@ export default function CreateClientPage() {
     fetchStates();
   }, []);
 
+  // 🔹 Validation
+  const validate = () => {
+    const newErrors: Record<string, boolean> = {
+      client: !formData.client.trim(),
+      website: !formData.website.trim(),
+      emailId: !formData.emailId.trim(),
+      phone: !formData.phone.trim(),
+      gstNo: !formData.gstNo.trim(),
+      state: !formData.state.trim(),
+    };
+
+    setErrors(newErrors);
+
+    return !Object.values(newErrors).some(Boolean);
+  };
+
   const handleSave = async () => {
+    if (!validate()) {
+      return;
+    }
+
     console.log("Form Data:", formData);
     try {
       const res = await fetch("/api/client", {
@@ -84,28 +106,40 @@ export default function CreateClientPage() {
           <Label className="font-bold">Client</Label>
 
           <Input
+            className={errors.client ? "border-red-500" : ""}
             value={formData.client}
-            onChange={(e) =>
+            onChange={(e) => {
               setFormData({
                 ...formData,
                 client: e.target.value,
-              })
-            }
+              });
+              if (errors.client) {
+                setErrors({ ...errors, client: false });
+              }
+            }}
           />
+          {errors.client && (
+            <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
           <Label className="font-bold" >State</Label>
 
           <select
-            className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-100"
+            className={`w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-100 ${errors.state ? "border-red-500" : ""}`}
             value={formData.state}
-            onChange={(e) =>
+            onChange={(e) => {
               setFormData({
                 ...formData,
                 state: e.target.value,
-              })
-            }
+              });
+              if (errors.state) {
+                setErrors({ ...errors, state: false });
+              }
+            }}
           >
             <option value="">Select State</option>
             {states.map((state) => (
@@ -114,61 +148,102 @@ export default function CreateClientPage() {
               </option>
             ))}
           </select>
+          {errors.state && (
+            <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
           <Label className="font-bold">Phone</Label>
 
           <Input
+            className={errors.phone ? "border-red-500" : ""}
             value={formData.phone}
-            onChange={(e) =>
+            onChange={(e) => {
               setFormData({
                 ...formData,
                 phone: e.target.value,
-              })
-            }
+              });
+              if (errors.phone) {
+                setErrors({ ...errors, phone: false });
+              }
+            }}
           />
+          {errors.phone && (
+            <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
           <Label className="font-bold">Email</Label>
 
           <Input
+            className={errors.emailId ? "border-red-500" : ""}
             value={formData.emailId}
-            onChange={(e) =>
+            onChange={(e) => {
               setFormData({
                 ...formData,
                 emailId: e.target.value,
-              })
-            }
+              });
+              if (errors.emailId) {
+                setErrors({ ...errors, emailId: false });
+              }
+            }}
           />
+          {errors.emailId && (
+            <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+            </p>
+          )}
         </div>
         <div className="space-y-2">
           <Label className="font-bold">Website</Label>
 
           <Input
+            className={errors.website ? "border-red-500" : ""}
             value={formData.website}
-            onChange={(e) =>
+            onChange={(e) => {
               setFormData({
                 ...formData,
                 website: e.target.value,
-              })
-            }
+              });
+              if (errors.website) {
+                setErrors({ ...errors, website: false });
+              }
+            }}
           />
+          {errors.website && (
+            <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
           <Label className="font-bold">GST Number</Label>
 
           <Input
+            className={errors.gstNo ? "border-red-500" : ""}
             value={formData.gstNo}
-            onChange={(e) =>
+            onChange={(e) => {
               setFormData({
                 ...formData,
                 gstNo: e.target.value,
-              })
-            }
+              });
+              if (errors.gstNo) {
+                setErrors({ ...errors, gstNo: false });
+              }
+            }}
           />
+          {errors.gstNo && (
+            <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+            </p>
+          )}
         </div>
       </div>
 
