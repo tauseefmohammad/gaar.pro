@@ -26,6 +26,8 @@ export default function CreateReceivableForm() {
 
   const [form, setForm] = useState<any>({});
 
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
+
   const [verticals, setVerticals] = useState<any[]>([]);
   const [subVerticals, setSubVerticals] = useState<any[]>([]);
   const [statusList, setStatusList] = useState<any[]>([]);
@@ -102,7 +104,33 @@ export default function CreateReceivableForm() {
     setTenderResults(data?.data || []);
   };
 
+  // 🔹 Validation
+  const validate = () => {
+    const newErrors: Record<string, boolean> = {
+      type: !(form.type || "").trim(),
+      paymentFrom: !(form.paymentFrom || "").trim(),
+      //description: !(form.description || "").trim(),
+      receivableAmount: !String(form.receivableAmount || "").trim(),
+      state: !(form.state || "").trim(),
+      owner: !(form.owner || "").trim(),
+      dueDate: !(form.dueDate || "").trim(),
+      vertical: !(form.vertical || "").trim(),
+      subVertical: !(form.subVertical || "").trim(),
+      status: !(form.status || "").trim(),
+      invoiceNo: !(form.invoiceNo || "").trim(),
+      woNo: !(form.woNo || "").trim(),
+    };
+
+    setErrors(newErrors);
+
+    return !Object.values(newErrors).some(Boolean);
+  };
+
   const handleSubmit = async () => {
+    if (!validate()) {
+      return;
+    }
+
     await fetch("/api/receivable", {
       method: "POST",
       body: JSON.stringify({
@@ -119,6 +147,7 @@ export default function CreateReceivableForm() {
       <Label className="font-bold">{label}</Label>
 
       <Input
+        className={errors[field] ? "border-red-500" : ""}
         value={form[field] || ""}
         placeholder={`Search ${label}`}
         onChange={(e) => {
@@ -129,9 +158,19 @@ export default function CreateReceivableForm() {
             [field]: value,
           });
 
+          if (errors[field]) {
+            setErrors({ ...errors, [field]: false });
+          }
+
           searchUsers(value);
         }}
       />
+
+      {errors[field] && (
+        <p className="text-red-500 text-xs mt-1 font-bold">
+          * This is Mandatory
+        </p>
+      )}
 
       {userResults.length > 0 && (
         <div className="absolute z-10 bg-white border rounded-md shadow-md w-full max-h-40 overflow-y-auto">
@@ -144,6 +183,10 @@ export default function CreateReceivableForm() {
                   ...form,
                   [field]: user.name,
                 });
+
+                if (errors[field]) {
+                  setErrors({ ...errors, [field]: false });
+                }
 
                 setUserResults([]);
               }}
@@ -161,6 +204,7 @@ export default function CreateReceivableForm() {
       <Label className="font-bold">{label}</Label>
 
       <Input
+        className={errors[field] ? "border-red-500" : ""}
         value={form[field] || ""}
         placeholder={`Search ${label}`}
         onChange={(e) => {
@@ -171,9 +215,19 @@ export default function CreateReceivableForm() {
             [field]: value,
           });
 
+          if (errors[field]) {
+            setErrors({ ...errors, [field]: false });
+          }
+
           searchClients(value);
         }}
       />
+
+      {errors[field] && (
+        <p className="text-red-500 text-xs mt-1 font-bold">
+          * This is Mandatory
+        </p>
+      )}
 
       {clientResults.length > 0 && (
         <div className="absolute z-10 bg-white border rounded-md shadow-md w-full max-h-40 overflow-y-auto">
@@ -186,6 +240,10 @@ export default function CreateReceivableForm() {
                   ...form,
                   [field]: client.client,
                 });
+
+                if (errors[field]) {
+                  setErrors({ ...errors, [field]: false });
+                }
 
                 setClientResults([]);
               }}
@@ -220,14 +278,17 @@ export default function CreateReceivableForm() {
                 <Label className="font-bold">Type</Label>
 
                 <select
-                  className="w-full border rounded-md p-2"
+                  className={`w-full border rounded-md p-2 ${errors.type ? "border-red-500" : ""}`}
                   value={form.type || ""}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setForm({
                       ...form,
                       type: e.target.value,
-                    })
-                  }
+                    });
+                    if (errors.type) {
+                      setErrors({ ...errors, type: false });
+                    }
+                  }}
                 >
                   <option value="">Select</option>
 
@@ -237,6 +298,11 @@ export default function CreateReceivableForm() {
                     </option>
                   ))}
                 </select>
+                {errors.type && (
+                  <p className="text-red-500 text-xs mt-1 font-bold">
+                    * This is Mandatory
+                  </p>
+                )}
               </div>
 
               <div>{renderClientSearch("paymentFrom", "Payment From")}</div>
@@ -246,42 +312,70 @@ export default function CreateReceivableForm() {
 
                 <Textarea
                   rows={4}
+                  className={errors.description ? "border-red-500" : ""}
                   value={form.description || ""}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setForm({
                       ...form,
                       description: e.target.value,
-                    })
-                  }
+                    });
+                    if (errors.description) {
+                      setErrors({ ...errors, description: false });
+                    }
+                  }}
                 />
+                {errors.description && (
+                  <p className="text-red-500 text-xs mt-1 font-bold">
+                    * This is Mandatory
+                  </p>
+                )}
               </div>
 
               <div>
                 <Label className="font-bold">Receivable Amount</Label>
 
-                <AmountToWords
-                  amount={String(form.receivableAmount || "")}
-                  onChange={(val) =>
-                    setForm((prev: any) => ({
-                      ...prev,
-                      receivableAmount: val,
-                    }))
+                <div
+                  className={
+                    errors.receivableAmount
+                      ? "border border-red-500 rounded-xl"
+                      : ""
                   }
-                />
+                >
+                  <AmountToWords
+                    amount={String(form.receivableAmount || "")}
+                    onChange={(val) => {
+                      setForm((prev: any) => ({
+                        ...prev,
+                        receivableAmount: val,
+                      }));
+                      if (errors.receivableAmount) {
+                        setErrors({ ...errors, receivableAmount: false });
+                      }
+                    }}
+                  />
+                </div>
+                {errors.receivableAmount && (
+                  <p className="text-red-500 text-xs mt-1 font-bold">
+                    * This is Mandatory
+                  </p>
+                )}
               </div>
 
               <div>
                 <Label className="font-bold">State</Label>
 
                 <select
-                  className="w-full border rounded-md p-2"
+                  className={`w-full border rounded-md p-2 ${errors.state ? "border-red-500" : ""}`}
                   value={form.state || ""}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setForm({
                       ...form,
                       state: e.target.value,
-                    })
-                  }
+                    });
+                    if (errors.state) {
+                      setErrors({ ...errors, state: false });
+                    }
+                  }}
                 >
                   <option value="">Select</option>
 
@@ -291,6 +385,11 @@ export default function CreateReceivableForm() {
                     </option>
                   ))}
                 </select>
+                {errors.state && (
+                  <p className="text-red-500 text-xs mt-1 font-bold">
+                    * This is Mandatory
+                  </p>
+                )}
               </div>
 
               <div>{renderUserSearch("owner", "Owner")}</div>
@@ -300,14 +399,23 @@ export default function CreateReceivableForm() {
 
                 <Input
                   type="date"
+                  className={errors.dueDate ? "border-red-500" : ""}
                   value={form.dueDate || ""}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setForm({
                       ...form,
                       dueDate: e.target.value,
-                    })
-                  }
+                    });
+                    if (errors.dueDate) {
+                      setErrors({ ...errors, dueDate: false });
+                    }
+                  }}
                 />
+                {errors.dueDate && (
+                  <p className="text-red-500 text-xs mt-1 font-bold">
+                    * This is Mandatory
+                  </p>
+                )}
               </div>
             </div>
           </CardContent>
@@ -328,14 +436,17 @@ export default function CreateReceivableForm() {
                 <Label className="font-bold">Vertical</Label>
 
                 <select
-                  className="w-full border rounded-md p-2"
+                  className={`w-full border rounded-md p-2 ${errors.vertical ? "border-red-500" : ""}`}
                   value={form.vertical || ""}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setForm({
                       ...form,
                       vertical: e.target.value,
-                    })
-                  }
+                    });
+                    if (errors.vertical) {
+                      setErrors({ ...errors, vertical: false });
+                    }
+                  }}
                 >
                   <option value="">Select</option>
 
@@ -345,20 +456,28 @@ export default function CreateReceivableForm() {
                     </option>
                   ))}
                 </select>
+                {errors.vertical && (
+                  <p className="text-red-500 text-xs mt-1 font-bold">
+                    * This is Mandatory
+                  </p>
+                )}
               </div>
 
               <div>
                 <Label className="font-bold">Sub Vertical</Label>
 
                 <select
-                  className="w-full border rounded-md p-2"
+                  className={`w-full border rounded-md p-2 ${errors.subVertical ? "border-red-500" : ""}`}
                   value={form.subVertical || ""}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setForm({
                       ...form,
                       subVertical: e.target.value,
-                    })
-                  }
+                    });
+                    if (errors.subVertical) {
+                      setErrors({ ...errors, subVertical: false });
+                    }
+                  }}
                 >
                   <option value="">Select</option>
 
@@ -368,20 +487,28 @@ export default function CreateReceivableForm() {
                     </option>
                   ))}
                 </select>
+                {errors.subVertical && (
+                  <p className="text-red-500 text-xs mt-1 font-bold">
+                    * This is Mandatory
+                  </p>
+                )}
               </div>
 
               <div>
                 <Label className="font-bold">Status</Label>
 
                 <select
-                  className="w-full border rounded-md p-2"
+                  className={`w-full border rounded-md p-2 ${errors.status ? "border-red-500" : ""}`}
                   value={form.status || ""}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setForm({
                       ...form,
                       status: e.target.value,
-                    })
-                  }
+                    });
+                    if (errors.status) {
+                      setErrors({ ...errors, status: false });
+                    }
+                  }}
                 >
                   <option value="">Select</option>
 
@@ -391,6 +518,11 @@ export default function CreateReceivableForm() {
                     </option>
                   ))}
                 </select>
+                {errors.status && (
+                  <p className="text-red-500 text-xs mt-1 font-bold">
+                    * This is Mandatory
+                  </p>
+                )}
               </div>
 
               <div>
@@ -398,14 +530,22 @@ export default function CreateReceivableForm() {
 
                 <Input
                   value={form.invoiceNo || ""}
-                  className="h-11 rounded-xl border-slate-300 focus:border-cyan-600 focus:ring-2 focus:ring-cyan-200"
-                  onChange={(e) =>
+                  className={`h-11 rounded-xl border-slate-300 focus:border-cyan-600 focus:ring-2 focus:ring-cyan-200 ${errors.invoiceNo ? "border-red-500" : ""}`}
+                  onChange={(e) => {
                     setForm({
                       ...form,
                       invoiceNo: e.target.value,
-                    })
-                  }
+                    });
+                    if (errors.invoiceNo) {
+                      setErrors({ ...errors, invoiceNo: false });
+                    }
+                  }}
                 />
+                {errors.invoiceNo && (
+                  <p className="text-red-500 text-xs mt-1 font-bold">
+                    * This is Mandatory
+                  </p>
+                )}
               </div>
             </div>
           </CardContent>
@@ -447,6 +587,7 @@ export default function CreateReceivableForm() {
                 <Label className="font-bold">Work Order No</Label>
 
                 <Input
+                  className={errors.woNo ? "border-red-500" : ""}
                   value={form.woNo || ""}
                   onChange={(e) => {
                     const value = e.target.value;
@@ -456,9 +597,18 @@ export default function CreateReceivableForm() {
                       woNo: value,
                     });
 
+                    if (errors.woNo) {
+                      setErrors({ ...errors, woNo: false });
+                    }
+
                     searchWorkOrders(value);
                   }}
                 />
+                {errors.woNo && (
+                  <p className="text-red-500 text-xs mt-1 font-bold">
+                    * This is Mandatory
+                  </p>
+                )}
 
                 {workOrderResults.length > 0 && (
                   <div className="absolute z-10 bg-white border rounded-md shadow-md w-full max-h-40 overflow-y-auto">
@@ -474,6 +624,10 @@ export default function CreateReceivableForm() {
                             tenderNo: wo.tenderNo,
                             tenderName: wo.tenderName,
                           });
+
+                          if (errors.woNo) {
+                            setErrors({ ...errors, woNo: false });
+                          }
 
                           setWorkOrderResults([]);
                         }}

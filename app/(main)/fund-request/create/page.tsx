@@ -16,7 +16,7 @@ export default function CreateFR() {
   const orgId = session?.user?.orgId;
   const employeeName = session?.user?.employeeName;
   const phone = session?.user?.username;
-
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [form, setForm] = useState<any>({
     description: "",
     amount: "",
@@ -273,15 +273,37 @@ export default function CreateFR() {
     };
   }, []);
 
+     // 🔹 Validation
+  const validate = () => {
+    const newErrors: Record<string, boolean> = {
+      frType: !form.frType.trim(),
+      paymentType: !form.paymentType.trim(),
+      woNo: !form.woNo.trim(),
+      woTitle: !form.woTitle.trim(),
+      amount: !form.amount.trim(),
+      state: !form.state.trim(),
+      vertical: !form.vertical.trim(),
+      subVertical: !form.subVertical.trim(),
+      paymentTo: !form.paymentTo.trim(),
+      paymentToId: !form.paymentToId.trim(),
+      paymentToType: !form.paymentToType.trim(),
+      paymentPriority: !form.paymentPriority.trim(),
+      dueDate: !form.dueDate.trim(),
+      tenderNo: !form.tenderNo.trim(),
+      //tenderDescription: !form.tenderDescription.trim(),
+      //managerName: !form.managerName.trim(),
+    };
+
+    setErrors(newErrors);
+
+    return !Object.values(newErrors).some(Boolean);
+  };
   // ---------------- SUBMIT ----------------
   const handleSubmit = async () => {
-    if (
-      (form.paymentType === "EMD" || form.paymentType === "BG") &&
-      (!form.tenderNo || !form.tenderDescription)
-    ) {
-      alert("Tender No and Tender Description are mandatory");
+    if (!validate()) {
       return;
     }
+
     await fetch("/api/fund-request", {
       method: "POST",
       body: JSON.stringify(form),
@@ -293,7 +315,7 @@ export default function CreateFR() {
   // ---------------- UI ----------------
   return (
     <div className="p-4 space-y-4">
-      <PageHeader title="Create Fund Request" />
+      <PageHeader  title="Create Fund Request"/>
 
       <div className="grid grid-cols-2 gap-4 p-4">
         {/* DESCRIPTION */}
@@ -303,8 +325,7 @@ export default function CreateFR() {
           <Textarea
             value={form.description}
             onChange={(e) =>
-              setForm({
-                ...form,
+              setForm({...form,
                 description: e.target.value,
               })
             }
@@ -313,40 +334,50 @@ export default function CreateFR() {
 
         {/* FR TYPE */}
         <div>
-          <label className="font-bold">FR Type</label>
+         <label className="font-bold" htmlFor="frType">FR Type</label>
 
-          <select
-            className="border rounded-lg p-2 w-full"
-            value={form.frType}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                frType: e.target.value,
-              })
-            }
-          >
+        <select
+         id="frType"
+         className={`border rounded-lg p-2 w-full ${errors.frType ? "border-red-500" : ""}`}
+          value={form.frType}
+          onChange={(e) => {
+          setForm({...form,frType: e.target.value,
+          });
+          if (errors.frType) {
+           setErrors({ ...errors, frType: false });
+           }
+           }}
+           >
             <option value="">Select</option>
 
             {lists.frType.map((f: any) => (
-              <option key={f._id} value={f.listItem}>
-                {f.listItem}
-              </option>
+            <option key={f._id} value={f.listItem}>
+            {f.listItem}
+             </option>
             ))}
           </select>
-        </div>
+
+            {errors.frType && (
+             <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+              </p>
+              )}
+          </div>
 
         {/* PAYMENT TYPE */}
         <div>
           <label className="font-bold">Payment Type</label>
 
           <select
-            className="border rounded-lg p-2 w-full"
+            className={`border rounded-lg p-2 w-full ${errors.paymentType ? "border-red-500" : ""}`}
             value={form.paymentType}
-            onChange={(e) =>
-              setForm({
-                ...form,
+            onChange={(e) =>{
+              setForm({ ...form,
                 paymentType: e.target.value,
               })
+               if (errors.paymentType) {
+           setErrors({ ...errors, paymentType: false });
+           }}
             }
           >
             <option value="">Select</option>
@@ -357,6 +388,11 @@ export default function CreateFR() {
               </option>
             ))}
           </select>
+          {errors.paymentType && (
+             <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+              </p>
+              )}
         </div>
 
         {/* TENDER DETAILS */}
@@ -374,6 +410,7 @@ export default function CreateFR() {
 
               <Input
                 required
+                className={errors.tenderNo ? "border-red-500" : ""}
                 value={form.tenderNo}
                 onChange={(e) => {
                   setForm({
@@ -382,9 +419,18 @@ export default function CreateFR() {
                     tenderName: "",
                   });
 
+                  if (errors.tenderNo) {
+                    setErrors({ ...errors, tenderNo: false });
+                  }
+
                   searchTender(e.target.value);
                 }}
               />
+              {errors.tenderNo && (
+                <p className="text-red-500 text-xs mt-1 font-bold">
+                  * This is Mandatory
+                </p>
+              )}
 
               {tenderResults.length > 0 && (
                 <div className="absolute z-20 w-full bg-white border rounded-md shadow-md max-h-56 overflow-auto">
@@ -409,7 +455,17 @@ export default function CreateFR() {
                 Tender Description <span className="text-red-500">*</span>
               </label>
 
-              <Input required readOnly value={form.tenderDescription} />
+              <Input
+                required
+                readOnly
+                className={errors.tenderDescription ? "border-red-500" : ""}
+                value={form.tenderDescription}
+              />
+              {errors.tenderDescription && (
+                <p className="text-red-500 text-xs mt-1 font-bold">
+                  * This is Mandatory
+                </p>
+              )}
             </div>
           </>
         )}
@@ -422,6 +478,7 @@ export default function CreateFR() {
               <label className="font-bold">Work Order No</label>
 
               <Input
+                className={errors.woNo ? "border-red-500" : ""}
                 value={form.woNo}
                 onChange={(e) => {
                   setForm({
@@ -430,8 +487,16 @@ export default function CreateFR() {
                   });
 
                   searchWO(e.target.value, "woNo");
+                  if (errors.woNo) {
+                  setErrors({ ...errors, woNo: false });
+                  }
                 }}
               />
+              {errors.woNo && (
+                <p className="text-red-500 text-xs mt-1 font-bold">
+                  * This is Mandatory
+                </p>
+              )}
 
               {woSearchType === "woNo" && woResults.length > 0 && (
                 <div className="absolute z-20 w-full bg-white border rounded-md shadow-md max-h-56 overflow-auto">
@@ -455,6 +520,7 @@ export default function CreateFR() {
               <label className="font-bold">Work Order Title</label>
 
               <Input
+                className={errors.woTitle ? "border-red-500" : ""}
                 value={form.woTitle}
                 onChange={(e) => {
                   setForm({
@@ -462,9 +528,18 @@ export default function CreateFR() {
                     woTitle: e.target.value,
                   });
 
+                  if (errors.woTitle) {
+                    setErrors({ ...errors, woTitle: false });
+                  }
+
                   searchWO(e.target.value, "woTitle");
                 }}
               />
+              {errors.woTitle && (
+                <p className="text-red-500 text-xs mt-1 font-bold">
+                  * This is Mandatory
+                </p>
+              )}
 
               {woSearchType === "woTitle" && woResults.length > 0 && (
                 <div className="absolute z-20 w-full bg-white border rounded-md shadow-md max-h-56 overflow-auto">
@@ -488,15 +563,29 @@ export default function CreateFR() {
         <div>
           <label className="font-bold">Request Amount</label>
 
-          <AmountToWords
-            amount={form.amount}
-            onChange={(val) =>
-              setForm({
-                ...form,
-                amount: val,
-              })
+          <div
+            className={
+              errors.amount ? "border border-red-500 rounded-xl" : ""
             }
-          />
+          >
+            <AmountToWords
+              amount={form.amount}
+              onChange={(val) => {
+                setForm({
+                  ...form,
+                  amount: val,
+                });
+                if (errors.amount) {
+                  setErrors({ ...errors, amount: false });
+                }
+              }}
+            />
+          </div>
+          {errors.amount && (
+            <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+            </p>
+          )}
         </div>
 
         {/* STATE */}
@@ -504,14 +593,17 @@ export default function CreateFR() {
           <label className="font-bold">State</label>
 
           <select
-            className="border rounded-lg p-2 w-full"
+            className={`border rounded-lg p-2 w-full ${errors.state ? "border-red-500" : ""}`}
             value={form.state}
-            onChange={(e) =>
+            onChange={(e) => {
               setForm({
                 ...form,
                 state: e.target.value,
-              })
-            }
+              });
+              if (errors.state) {
+                setErrors({ ...errors, state: false });
+              }
+            }}
           >
             <option value="">Select</option>
 
@@ -521,21 +613,29 @@ export default function CreateFR() {
               </option>
             ))}
           </select>
+          {errors.state && (
+            <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+            </p>
+          )}
         </div>
         {/* VERTICAL */}
         <div>
           <label className="font-bold">Vertical</label>
 
           <select
-            className="border rounded-lg p-2 w-full"
+            className={`border rounded-lg p-2 w-full ${errors.vertical ? "border-red-500" : ""}`}
             value={form.vertical}
-            onChange={(e) =>
+            onChange={(e) => {
               setForm({
                 ...form,
                 vertical: e.target.value,
                 subVertical: "",
-              })
-            }
+              });
+              if (errors.vertical) {
+                setErrors({ ...errors, vertical: false });
+              }
+            }}
           >
             <option value="">Select</option>
 
@@ -545,6 +645,11 @@ export default function CreateFR() {
               </option>
             ))}
           </select>
+          {errors.vertical && (
+            <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+            </p>
+          )}
         </div>
 
         {/* SUB VERTICAL */}
@@ -552,14 +657,17 @@ export default function CreateFR() {
           <label className="font-bold">Sub Vertical</label>
 
           <select
-            className="border rounded-lg p-2 w-full"
+            className={`border rounded-lg p-2 w-full ${errors.subVertical ? "border-red-500" : ""}`}
             value={form.subVertical}
-            onChange={(e) =>
+            onChange={(e) => {
               setForm({
                 ...form,
                 subVertical: e.target.value,
-              })
-            }
+              });
+              if (errors.subVertical) {
+                setErrors({ ...errors, subVertical: false });
+              }
+            }}
           >
             <option value="">Select</option>
 
@@ -569,6 +677,11 @@ export default function CreateFR() {
               </option>
             ))}
           </select>
+          {errors.subVertical && (
+            <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+            </p>
+          )}
         </div>
 
         {/* PAYMENT TO */}
@@ -576,6 +689,7 @@ export default function CreateFR() {
           <label className="font-bold">Payment To</label>
 
           <Input
+            className={errors.paymentTo ? "border-red-500" : ""}
             value={form.paymentTo}
             onChange={(e) => {
               setForm({
@@ -583,9 +697,18 @@ export default function CreateFR() {
                 paymentTo: e.target.value,
               });
 
+              if (errors.paymentTo) {
+                setErrors({ ...errors, paymentTo: false });
+              }
+
               searchPaymentTo(e.target.value);
             }}
           />
+          {errors.paymentTo && (
+            <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+            </p>
+          )}
 
           {paymentToResults.length > 0 && (
             <div className="absolute z-20 w-full bg-white border rounded-md shadow-md max-h-56 overflow-auto">
@@ -609,14 +732,17 @@ export default function CreateFR() {
           <label className="font-bold">Priority</label>
 
           <select
-            className="border rounded-lg p-2 w-full"
+            className={`border rounded-lg p-2 w-full ${errors.paymentPriority ? "border-red-500" : ""}`}
             value={form.paymentPriority}
-            onChange={(e) =>
+            onChange={(e) => {
               setForm({
                 ...form,
                 paymentPriority: e.target.value,
-              })
-            }
+              });
+              if (errors.paymentPriority) {
+                setErrors({ ...errors, paymentPriority: false });
+              }
+            }}
           >
             <option value="">Select</option>
 
@@ -626,6 +752,11 @@ export default function CreateFR() {
               </option>
             ))}
           </select>
+          {errors.paymentPriority && (
+            <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+            </p>
+          )}
         </div>
 
         {/* DUE DATE */}
@@ -634,14 +765,23 @@ export default function CreateFR() {
 
           <Input
             type="date"
+            className={errors.dueDate ? "border-red-500" : ""}
             value={form.dueDate}
-            onChange={(e) =>
+            onChange={(e) => {
               setForm({
                 ...form,
                 dueDate: e.target.value,
-              })
-            }
+              });
+              if (errors.dueDate) {
+                setErrors({ ...errors, dueDate: false });
+              }
+            }}
           />
+          {errors.dueDate && (
+            <p className="text-red-500 text-xs mt-1 font-bold">
+              * This is Mandatory
+            </p>
+          )}
         </div>
 
         {/* SUBMIT */}
