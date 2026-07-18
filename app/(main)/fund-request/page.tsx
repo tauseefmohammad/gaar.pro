@@ -104,7 +104,10 @@ export default function FundRequestList() {
   // ---------------- UI ----------------
   return (
     <div className="space-y-4 px-0 md:px-4 lg:px-8">
-      <PageHeader title="Fund Requests" />
+      {/* Title */}
+      <div className="bg-linear-to-r from-cyan-300 to-cyan-900 text-white text-center py-2 rounded-md">
+        <h1 className="text-xl font-semibold">Fund Requests</h1>
+      </div>
 
       {/* 🔹 Toolbar */}
       <div className="flex justify-between items-center">

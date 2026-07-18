@@ -158,7 +158,10 @@ export default function ClientsPage() {
 
   return (
     <div className="space-y-6 px-0 md:px-4 lg:px-8">
-      <PageHeader title="Client Listing" />
+      {/* Title */}
+      <div className="bg-linear-to-r from-cyan-300 to-cyan-900 text-white text-center py-2 rounded-md">
+        <h1 className="text-xl font-semibold">Client Listing</h1>
+      </div>
 
       {/* Subtle background refresh indicator */}
       {isFetching && !isLoading && (

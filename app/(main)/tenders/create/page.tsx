@@ -316,7 +316,10 @@ export default function CreateTenderPage() {
 
   return (
     <div className="space-y-4 *:px-0 md:px-4 lg:px-8">
-      <PageHeader title="Create Tender" />
+      {/* Title */}
+      <div className="bg-linear-to-r from-cyan-300 to-cyan-900 text-white text-center py-2 rounded-md">
+        <h1 className="text-xl font-semibold">Create Tender</h1>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* GENERAL INFO */}
@@ -325,7 +328,7 @@ export default function CreateTenderPage() {
             <CardTitle className="flex items-center gap-2">
               <div className="h-6 w-1.5 rounded-full bg-cyan-500" />
 
-              <span className="text-sm font-semibold text-slate-800 tracking-wide uppercase">
+              <span className="text-sm font-bold text-slate-800 tracking-wide uppercase">
                 General Information
               </span>
             </CardTitle>
@@ -333,7 +336,7 @@ export default function CreateTenderPage() {
 
           <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-visible">
             <div className="space-y-2">
-              <Label>Tender No</Label>
+              <Label className="font-bold">Tender No</Label>
               <Input
                 name="tenderNo"
                 value={formData.tenderNo}
@@ -345,7 +348,7 @@ export default function CreateTenderPage() {
             {renderUserSearch("owner", "Owner")}
 
             <div className="space-y-2">
-              <Label>Is MAF Required</Label>
+              <Label className="font-bold text-gray-700">Is MAF Required</Label>
               <Checkbox
                 checked={formData.isMAFRequired}
                 onCheckedChange={(checked) =>
@@ -358,7 +361,7 @@ export default function CreateTenderPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>Tender Value</Label>
+              <Label className="font-bold">Tender Value</Label>
               <AmountToWords
                 amount={formData.tenderValue}
                 onChange={(val) =>
@@ -371,7 +374,7 @@ export default function CreateTenderPage() {
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <Label>Description</Label>
+              <Label className="font-bold">Description</Label>
 
               <Textarea
                 name="description"
@@ -381,7 +384,7 @@ export default function CreateTenderPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>Tender Date</Label>
+              <Label className="font-bold">Tender Date</Label>
 
               <Input
                 type="datetime-local"
@@ -392,7 +395,7 @@ export default function CreateTenderPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>Pre-Bid Meeting Date</Label>
+              <Label className="font-bold">Pre-Bid Meeting Date</Label>
 
               <Input
                 type="datetime-local"
@@ -403,7 +406,7 @@ export default function CreateTenderPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>Tender Submission Date</Label>
+              <Label className="font-bold">Tender Submission Date</Label>
 
               <Input
                 type="datetime-local"
@@ -414,7 +417,7 @@ export default function CreateTenderPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>Tender Opening Date</Label>
+              <Label className="font-bold">Tender Opening Date</Label>
 
               <Input
                 type="datetime-local"
@@ -424,7 +427,7 @@ export default function CreateTenderPage() {
               />
             </div>
             <div>
-              <label>Vertical</label>
+              <label className="font-bold">Vertical</label>
 
               <select
                 className="border rounded-lg p-2 w-full"
@@ -449,7 +452,7 @@ export default function CreateTenderPage() {
 
             {/* SUB VERTICAL */}
             <div>
-              <label>Sub Vertical</label>
+              <label className="font-bold">Sub Vertical</label>
 
               <select
                 className="border rounded-lg p-2 w-full"
@@ -471,7 +474,7 @@ export default function CreateTenderPage() {
               </select>
             </div>
             <div>
-              <label>Country *</label>
+              <label className="font-bold">Country *</label>
 
               <select
                 className="border rounded-lg p-2 w-full"
@@ -494,7 +497,7 @@ export default function CreateTenderPage() {
             </div>
 
             <div>
-              <label>State *</label>
+              <label className="font-bold">State *</label>
 
               <select
                 className="border rounded-lg p-2 w-full"
@@ -524,7 +527,7 @@ export default function CreateTenderPage() {
             <CardTitle className="flex items-center gap-2">
               <div className="h-6 w-1.5 rounded-full bg-emerald-500" />
 
-              <span className="text-sm font-semibold text-slate-800 tracking-wide uppercase">
+              <span className="text-sm font-bold text-slate-800 tracking-wide uppercase">
                 Tender Fees
               </span>
             </CardTitle>
@@ -532,7 +535,7 @@ export default function CreateTenderPage() {
 
           <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>EMD Amount</Label>
+              <Label className="font-bold">EMD Amount</Label>
               <AmountToWords
                 amount={formData.emdAmount}
                 onChange={(val) =>
@@ -545,7 +548,7 @@ export default function CreateTenderPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>BG Amount</Label>
+              <Label className="font-bold">BG Amount</Label>
               <AmountToWords
                 amount={formData.bgAmount}
                 onChange={(val) =>
@@ -558,7 +561,7 @@ export default function CreateTenderPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>Document Fee</Label>
+              <Label className="font-bold">Document Fee</Label>
               <AmountToWords
                 amount={formData.documentFee}
                 onChange={(val) =>
@@ -571,7 +574,7 @@ export default function CreateTenderPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>Corpus Fund</Label>
+              <Label className="font-bold">Corpus Fund</Label>
               <AmountToWords
                 amount={formData.corpusFund}
                 onChange={(val) =>
@@ -584,7 +587,7 @@ export default function CreateTenderPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>Transaction Fee</Label>
+              <Label className="font-bold">Transaction Fee</Label>
               <AmountToWords
                 amount={formData.transactionFee}
                 onChange={(val) =>
@@ -604,7 +607,7 @@ export default function CreateTenderPage() {
             <CardTitle className="flex items-center gap-2">
               <div className="h-6 w-1.5 rounded-full bg-violet-500" />
 
-              <span className="text-sm font-semibold text-slate-800 tracking-wide uppercase">
+              <span className="text-sm font-bold text-slate-800 tracking-wide uppercase">
                 Department & Client
               </span>
             </CardTitle>
@@ -613,7 +616,7 @@ export default function CreateTenderPage() {
           <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-visible">
             {/* Department */}
             <div className="space-y-2 relative z-50">
-              <Label>Tendering Department</Label>
+              <Label className="font-bold">Tendering Department</Label>
 
               <Input
                 placeholder="Search by name or id"
@@ -655,7 +658,7 @@ export default function CreateTenderPage() {
 
             {/* Client */}
             <div className="space-y-2 relative z-50">
-              <Label>Client</Label>
+              <Label className="font-bold">Client</Label>
 
               <Input
                 placeholder="Search by name or id"
@@ -702,7 +705,7 @@ export default function CreateTenderPage() {
             <CardTitle className="flex items-center gap-2">
               <div className="h-6 w-1.5 rounded-full bg-amber-500" />
 
-              <span className="text-sm font-semibold text-slate-800 tracking-wide uppercase">
+              <span className="text-sm font-bold text-slate-800 tracking-wide uppercase">
                 Remarks
               </span>
             </CardTitle>
@@ -710,7 +713,7 @@ export default function CreateTenderPage() {
 
           <CardContent>
             <div className="space-y-2">
-              <Label>Remarks</Label>
+              <Label className="font-bold">Remarks</Label>
 
               <Textarea
                 name="remarks"

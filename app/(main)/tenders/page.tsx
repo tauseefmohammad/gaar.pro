@@ -110,9 +110,11 @@ export default function TenderListingPage() {
   }, [data, search]);
 
   return (
-    <div className="space-y-6 *:px-0 md:px-4 lg:px-8">
-      {/* Header */}
-      <PageHeader title="Tenders" />
+    <div className="space-y-4 *:px-0 md:px-4 lg:px-8">
+      {/* Title */}
+      <div className="bg-linear-to-r from-cyan-300 to-cyan-900 text-white text-center py-2 rounded-md">
+        <h1 className="text-xl font-semibold">Tenders</h1>
+      </div>
 
       {/* Toolbar */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
