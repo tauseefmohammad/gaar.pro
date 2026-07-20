@@ -152,6 +152,28 @@ export default function EditWorkOrderPage() {
     });
   };
 
+  const handleSubmit = async () => {
+    setSaving(true);
+    try {
+      const res = await fetch(`/api/work-order/${params.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(workOrder),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to update work order");
+      }
+
+      router.push("/work-orders");
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <>
     <div className="space-y-4 px-0 md:px-4 lg:px-8">
@@ -351,6 +373,7 @@ export default function EditWorkOrderPage() {
                     <Label>Project Completion Date</Label>
                     <Input
                       type="date"
+                      name="projectCompletionDate"
                       value={workOrder.projectCompletionDate || ""}
                       onChange={handleChange}
                     />
@@ -359,6 +382,7 @@ export default function EditWorkOrderPage() {
                     <Label>Actual Start Date</Label>
                     <Input
                       type="date"
+                      name="actualStartDate"
                       value={workOrder.actualStartDate || ""}
                       onChange={handleChange}
                     />
@@ -367,6 +391,7 @@ export default function EditWorkOrderPage() {
                     <Label>Actual End Date</Label>
                     <Input
                       type="date"
+                      name="actualEndDate"
                       value={workOrder.actualEndDate || ""}
                       onChange={handleChange}
                     />
@@ -495,7 +520,7 @@ export default function EditWorkOrderPage() {
                     Cancel
                   </Button>
 
-                  <Button onClick={handleChange} disabled={saving} className="bg-cyan-900 hover:bg-cyan-700">
+                  <Button onClick={handleSubmit} disabled={saving} className="bg-cyan-900 hover:bg-cyan-700">
                     {saving ? "Saving..." : "Save Changes"}
                   </Button>
                 </CardContent>

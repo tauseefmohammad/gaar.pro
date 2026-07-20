@@ -86,22 +86,23 @@ export default function CreateEmployee() {
   };
 
   const handleSubmit = async () => {
-    const orgId = localStorage.getItem("orgId");
+  const formData = new FormData();
 
-    const formData = new FormData();
+  Object.entries(form).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      formData.append(key, value as any);
+    }
+  });
 
-    //Object.keys(form).forEach((key) =>formData.append(key, form[key]));
+  if (photo) formData.append("photo", photo);
 
-    formData.append("orgId", orgId || "");
-    if (photo) formData.append("photo", photo);
+  await fetch(`/api/employee/${params.id}`, {
+    method: "PUT",
+    body: formData,
+  });
 
-    await fetch("/api/employee", {
-      method: "PUT",
-      body: formData,
-    })
-
-    router.push("/employees");
-  };
+  router.push("/employees");
+};
 
   return (
      <>
