@@ -25,10 +25,11 @@ export async function GET(request, { params }) {
 export async function PUT(request, { params }) {
   try {
     await connectDB();
-    const { body } = await request.json();
+    const { id } = await params;
+    const body = await request.json();
 
     const updatedWorkOrder = await WorkOrder.findByIdAndUpdate(
-      params.id,
+      id,
       { ...body },
       { new: true },
     );
@@ -39,7 +40,7 @@ export async function PUT(request, { params }) {
       );
     }
     return NextResponse.json(
-      { message: "Work Order updated!" },
+      { message: "Work Order updated!", data: updatedWorkOrder },
       { status: 200 },
     );
   } catch (error) {
