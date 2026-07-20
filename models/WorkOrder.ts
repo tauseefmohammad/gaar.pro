@@ -63,6 +63,18 @@ const WorkOrderSchema = new mongoose.Schema(
     state: {
       type: String,
     },
+    projectManager: {
+      type: String,
+    },
+    scm: {
+      type: String,
+    },
+    projectManagerId: {
+      type: String,
+    },
+    scmId: {
+      type: String,
+    },
     clientId: {
       type: String,
     },

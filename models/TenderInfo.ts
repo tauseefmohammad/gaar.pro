@@ -143,6 +143,12 @@ const TenderInfoSchema = new mongoose.Schema(
     scm: {
       type: String,
     },
+    ownerId: {
+      type: String,
+    },
+    scmId: {
+      type: String,
+    },
     clientId: {
       type: String,
     },

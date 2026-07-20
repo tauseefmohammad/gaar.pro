@@ -596,7 +596,8 @@ export default function EditReceivableForm({ id }: { id: string }) {
               <div className="flex justify-end gap-4">
                 <Button
                   variant="outline"
-                  onClick={() => router.push("/payments")}
+                  onClick={() => router.push("/receivables")}
+                  className="bg-orange-700 hover:bg-orange-500 text-white" 
                 >
                   Cancel
                 </Button>
