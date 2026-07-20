@@ -54,6 +54,12 @@ export default function CreateTenderPage() {
     isMAFRequired: false,
     remarks: "",
     orgId: "",
+    tenderManager: "",
+    tenderManagerEmail: "",
+    tenderManagerPhone: "",
+    tenderOwner: "",
+    scm: "",
+    clientId: "",
   });
 
   const [errors, setErrors] = useState<Record<string, boolean>>({});
@@ -258,6 +264,7 @@ export default function CreateTenderPage() {
       transactionFee: !String(formData.transactionFee).trim(),
       tenderingDepartment: !formData.tenderingDepartment.trim(),
       client: !formData.client.trim(),
+      tenderManager: !formData.tenderManager.trim(),
     };
 
     setErrors(newErrors);
@@ -733,7 +740,7 @@ export default function CreateTenderPage() {
                 Department & Client
               </span>
             </CardTitle>
-          </CardHeader>
+          </CardHeader> 
 
           <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-visible">
             {/* Department */}
@@ -844,6 +851,69 @@ export default function CreateTenderPage() {
                 </div>
               )}
               <ErrorText field="client" />
+            </div>
+            {/* Tender Manager */}
+            <div className="space-y-2">
+              <Label className="font-bold">Tender Manager</Label>
+              <Input
+                name="tenderManager"
+                value={formData.tenderManager}
+                onChange={handleChange}
+                className={inputClass("tenderManager")}
+              />
+              <ErrorText field="tenderManager" />
+            </div>
+
+            {/* Tender Manager Email */}
+            <div className="space-y-2">
+              <Label className="font-bold">Tender Manager Email</Label>
+              <Input
+                type="email"
+                name="tenderManagerEmail"
+                value={formData.tenderManagerEmail}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Tender Manager Phone */}
+            <div className="space-y-2">
+              <Label className="font-bold">Tender Manager Phone</Label>
+              <Input
+                type="tel"
+                name="tenderManagerPhone"
+                value={formData.tenderManagerPhone}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Tender Owner */}
+            <div className="space-y-2">
+              <Label className="font-bold">Tender Owner</Label>
+              <Input
+                name="tenderOwner"
+                value={formData.tenderOwner}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* SCM */}
+            <div className="space-y-2">
+              <Label className="font-bold">SCM</Label>
+              <Input
+                name="scm"
+                value={formData.scm}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Client Id */}
+            <div className="space-y-2">
+              <Label className="font-bold">Client Id</Label>
+              <Input
+                name="clientId"
+                value={formData.clientId}
+                onChange={handleChange}
+              />
             </div>
           </CardContent>
         </Card>
