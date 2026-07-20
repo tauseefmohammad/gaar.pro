@@ -109,7 +109,7 @@ export default function CreateReceivableForm() {
     const newErrors: Record<string, boolean> = {
       type: !(form.type || "").trim(),
       paymentFrom: !(form.paymentFrom || "").trim(),
-      //description: !(form.description || "").trim(),
+      description: !(form.description || "").trim(),
       receivableAmount: !String(form.receivableAmount || "").trim(),
       state: !(form.state || "").trim(),
       owner: !(form.owner || "").trim(),

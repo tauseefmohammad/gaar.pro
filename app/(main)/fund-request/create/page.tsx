@@ -275,29 +275,29 @@ export default function CreateFR() {
 
      // 🔹 Validation
   const validate = () => {
-    const newErrors: Record<string, boolean> = {
-      frType: !form.frType.trim(),
-      paymentType: !form.paymentType.trim(),
-      woNo: !form.woNo.trim(),
-      woTitle: !form.woTitle.trim(),
-      amount: !form.amount.trim(),
-      state: !form.state.trim(),
-      vertical: !form.vertical.trim(),
-      subVertical: !form.subVertical.trim(),
-      paymentTo: !form.paymentTo.trim(),
-      paymentToId: !form.paymentToId.trim(),
-      paymentToType: !form.paymentToType.trim(),
-      paymentPriority: !form.paymentPriority.trim(),
-      dueDate: !form.dueDate.trim(),
-      tenderNo: !form.tenderNo.trim(),
-      //tenderDescription: !form.tenderDescription.trim(),
-      //managerName: !form.managerName.trim(),
-    };
-
-    setErrors(newErrors);
-
-    return !Object.values(newErrors).some(Boolean);
+  const newErrors: Record<string, boolean> = {
+    description: !form.description.trim(),   // ← added
+    frType: !form.frType.trim(),
+    paymentType: !form.paymentType.trim(),
+    woNo: !form.woNo.trim(),
+    woTitle: !form.woTitle.trim(),
+    amount: !form.amount.trim(),
+    state: !form.state.trim(),
+    vertical: !form.vertical.trim(),
+    subVertical: !form.subVertical.trim(),
+    paymentTo: !form.paymentTo.trim(),
+    paymentToId: !form.paymentToId.trim(),
+    paymentToType: !form.paymentToType.trim(),
+    paymentPriority: !form.paymentPriority.trim(),
+    dueDate: !form.dueDate.trim(),
+    tenderNo: !form.tenderNo.trim(),
+    tenderDescription: !form.tenderDescription.trim(),
   };
+
+  setErrors(newErrors);
+
+  return !Object.values(newErrors).some(Boolean);
+};
   // ---------------- SUBMIT ----------------
   const handleSubmit = async () => {
     if (!validate()) {
@@ -319,18 +319,26 @@ export default function CreateFR() {
 
       <div className="grid grid-cols-2 gap-4 p-4">
         {/* DESCRIPTION */}
-        <div className="col-span-2">
-          <label className="font-bold">Description</label>
+        {/* DESCRIPTION */}
+<div className="col-span-2">
+  <label className="font-bold">Description</label>
 
-          <Textarea
-            value={form.description}
-            onChange={(e) =>
-              setForm({...form,
-                description: e.target.value,
-              })
-            }
-          />
-        </div>
+  <Textarea
+    className={errors.description ? "border-red-500" : ""}
+    value={form.description}
+    onChange={(e) => {
+      setForm({ ...form, description: e.target.value });
+      if (errors.description) {
+        setErrors({ ...errors, description: false });
+      }
+    }}
+  />
+  {errors.description && (
+    <p className="text-red-500 text-xs mt-1 font-bold">
+      * This is Mandatory
+    </p>
+  )}
+</div>
 
         {/* FR TYPE */}
         <div>

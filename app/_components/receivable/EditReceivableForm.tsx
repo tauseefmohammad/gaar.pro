@@ -135,7 +135,7 @@ export default function EditReceivableForm({ id }: { id: string }) {
 
   return (
     <div className="space-y-4 px-0 md:px-4 lg:px-8">
-      <div className="rounded-xl bg-gradient-to-r from-cyan-700 to-cyan-900 px-6 py-4 text-white shadow-sm text-center">
+      <div className="rounded-md bg-gradient-to-r from-cyan-300 to-cyan-900 px-2 py-2 text-white shadow-sm text-center">
         <h1 className="text-xl font-semibold">Edit Receivable</h1>
       </div>
 

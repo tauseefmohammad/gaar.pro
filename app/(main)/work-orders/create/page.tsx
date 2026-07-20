@@ -27,6 +27,16 @@ export default function CreateWorkOrderPage() {
   const [countries, setCountries] = useState<any[]>([]);
   const [states, setStates] = useState<any[]>([]);
 
+  // 🔹 Project Manager search
+  const [pmSearch, setPmSearch] = useState("");
+  const [pmResults, setPmResults] = useState<any[]>([]);
+  const [showPmResults, setShowPmResults] = useState(false);
+
+  // 🔹 SCM search
+  const [scmSearch, setScmSearch] = useState("");
+  const [scmResults, setScmResults] = useState<any[]>([]);
+  const [showScmResults, setShowScmResults] = useState(false);
+
   const [formData, setFormData] = useState({
     woNo: "",
     woTitle: "",
@@ -50,6 +60,11 @@ export default function CreateWorkOrderPage() {
     client: "",
     clientId: "",
 
+    projectManager: "",
+    projectManagerId: "",
+    scm: "",
+    scmId: "",
+
     bgAmount: 0,
     bgMaturityDate: "",
     bgReceivedStatus: "",
@@ -66,7 +81,7 @@ export default function CreateWorkOrderPage() {
       woTitle: !formData.woTitle.trim(),
       woDate: !formData.woDate.trim(),
       woType: !formData.woType.trim(),
-      tenderNo: !formData.tenderNo.trim(),
+      //tenderNo: !formData.tenderNo.trim(),
       woValue: !formData.woValue || formData.woValue <= 0,
       vertical: !formData.vertical.trim(),
       subVertical: !formData.subVertical.trim(),
@@ -74,6 +89,7 @@ export default function CreateWorkOrderPage() {
       state: !formData.state.trim(),
       projectCompletionDate: !formData.projectCompletionDate.trim(),
       client: !formData.client.trim(),
+      projectManager: !formData.projectManager.trim(),
       bgAmount: !formData.bgAmount || formData.bgAmount <= 0,
       bgMaturityDate: !formData.bgMaturityDate.trim(),
     };
@@ -159,6 +175,56 @@ export default function CreateWorkOrderPage() {
 
     fetchList(formData.vertical, formData.orgId).then(setSubVerticals);
   }, [formData.vertical]);
+
+  // ---------------- PROJECT MANAGER SEARCH ----------------
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      if (pmSearch.length >= 3) {
+        searchPm(pmSearch);
+      } else {
+        setPmResults([]);
+      }
+    }, 300);
+
+    return () => clearTimeout(delay);
+  }, [pmSearch]);
+
+  const searchPm = async (val: string) => {
+    try {
+      const res = await fetch(
+        `/api/user/search?search=${val}&orgId=${orgId}`,
+      );
+      const data = await res.json();
+      setPmResults(Array.isArray(data?.data) ? data.data : []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // ---------------- SCM SEARCH ----------------
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      if (scmSearch.length >= 3) {
+        searchScm(scmSearch);
+      } else {
+        setScmResults([]);
+      }
+    }, 300);
+
+    return () => clearTimeout(delay);
+  }, [scmSearch]);
+
+  const searchScm = async (val: string) => {
+    try {
+      const res = await fetch(
+        `/api/user/search?search=${val}&orgId=${orgId}`,
+      );
+      const data = await res.json();
+      setScmResults(Array.isArray(data?.data) ? data.data : []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleChange = (e: any) => {
     setFormData({
@@ -518,6 +584,112 @@ export default function CreateWorkOrderPage() {
               <p className="text-red-500 text-xs mt-1 font-bold">
                 * This is Mandatory
               </p>
+            )}
+          </div>
+
+          {/* Project Manager */}
+          <div className="relative">
+            <Label className="font-bold">Project Manager</Label>
+
+            <div className={errors.projectManager ? "border border-red-500 rounded-md" : ""}>
+              <Input
+                value={pmSearch}
+                placeholder="Search project manager..."
+                onFocus={() => setShowPmResults(true)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setPmSearch(value);
+                  setShowPmResults(true);
+
+                  setFormData((prev) => ({
+                    ...prev,
+                    projectManager: value,
+                    projectManagerId: "",
+                  }));
+
+                  if (errors.projectManager) {
+                    setErrors({ ...errors, projectManager: false });
+                  }
+                }}
+              />
+
+              {showPmResults && pmResults.length > 0 && (
+                <div className="absolute z-50 mt-1 bg-white border rounded-md shadow-lg w-full max-h-48 overflow-y-auto">
+                  {pmResults.map((user: any) => (
+                    <div
+                      key={user._id}
+                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        setPmSearch(user.employeeName || user.name);
+                        setFormData((prev) => ({
+                          ...prev,
+                          projectManager: user.employeeName || user.name,
+                          projectManagerId: user._id,
+                        }));
+                        setShowPmResults(false);
+                        setPmResults([]);
+
+                        if (errors.projectManager) {
+                          setErrors({ ...errors, projectManager: false });
+                        }
+                      }}
+                    >
+                      {user.employeeName || user.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {errors.projectManager && (
+              <p className="text-red-500 text-xs mt-1 font-bold">
+                * This is Mandatory
+              </p>
+            )}
+          </div>
+
+          {/* SCM */}
+          <div className="relative">
+            <Label className="font-bold">SCM</Label>
+
+            <Input
+              value={scmSearch}
+              placeholder="Search SCM..."
+              onFocus={() => setShowScmResults(true)}
+              onChange={(e) => {
+                const value = e.target.value;
+                setScmSearch(value);
+                setShowScmResults(true);
+
+                setFormData((prev) => ({
+                  ...prev,
+                  scm: value,
+                  scmId: "",
+                }));
+              }}
+            />
+
+            {showScmResults && scmResults.length > 0 && (
+              <div className="absolute z-50 mt-1 bg-white border rounded-md shadow-lg w-full max-h-48 overflow-y-auto">
+                {scmResults.map((user: any) => (
+                  <div
+                    key={user._id}
+                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => {
+                      setScmSearch(user.employeeName || user.name);
+                      setFormData((prev) => ({
+                        ...prev,
+                        scm: user.employeeName || user.name,
+                        scmId: user._id,
+                      }));
+                      setShowScmResults(false);
+                      setScmResults([]);
+                    }}
+                  >
+                    {user.employeeName || user.name}
+                  </div>
+                ))}
+              </div>
             )}
           </div>
 

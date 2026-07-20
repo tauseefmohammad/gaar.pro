@@ -130,9 +130,9 @@ export default function EditClientPage() {
 
   return (
     <div className="space-y-4 px-0 md:px-4 lg:px-8">
-      <div>
-      <div className="rounded-md bg-linear-to-r from-cyan-700 to-cyan-900  text-white shadow-sm text-center">
-        <h1 className="text-xl font-semibold mb-6">Edit Client</h1>
+      
+      <div className="rounded-md bg-gradient-to-r from-cyan-300 to-cyan-900 px-2 py-2 text-white shadow-sm text-center">
+        <h1 className="text-xl font-semibold">Edit Client</h1>
       </div>
       <div className="p-4 space-y-6">
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -260,7 +260,6 @@ export default function EditClientPage() {
           </div>
         </form>
         </div>
-      </div>
     </div>
   );
 }
