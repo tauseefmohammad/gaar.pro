@@ -264,11 +264,14 @@ export default function CreateReceivableForm() {
 
       <div className="space-y-6">
         {/* BASIC INFO */}
-        <Card className="overflow-hidden border-0 shadow-lg rounded-2xl">
-          <CardHeader className="bg-gradient-to-r from-cyan-900 to-cyan-700 text-white py-4">
+        <Card className="overflow-visible rounded-2xl border border-slate-200 shadow-lg hover:shadow-xl transition-shadow">
+          <CardHeader className="py-3 px-5 border-b bg-white">
             <CardTitle className="flex items-center gap-2">
+              <div className="h-6 w-1.5 rounded-full bg-cyan-500" />
               <FileText className="h-5 w-5" />
+              <span className="text-sm font-bold text-slate-800 tracking-wide uppercase">
               Basic Information
+              </span>
             </CardTitle>
           </CardHeader>
 
@@ -422,11 +425,13 @@ export default function CreateReceivableForm() {
         </Card>
 
         {/* AREA */}
-        <Card className="overflow-hidden border-0 shadow-lg rounded-2xl">
-          <CardHeader className="bg-gradient-to-r from-emerald-500 to-emerald-300 text-white py-4">
+        <Card className="overflow-hidden rounded-2xl border border-slate-200 shadow-lg hover:shadow-xl transition-shadow">
+          <CardHeader className="py-3 px-5 border-b bg-white">
             <CardTitle className="flex items-center gap-2">
+              <div className="h-6 w-1.5 rounded-full bg-emerald-500" />
               <MapPinned className="h-5 w-5" />
-              Area & Classification
+                <span className="text-sm font-bold text-slate-800 tracking-wide uppercase">Area & Classification</span>
+              
             </CardTitle>
           </CardHeader>
 
@@ -551,11 +556,13 @@ export default function CreateReceivableForm() {
           </CardContent>
         </Card>
         {/* TENDER / WORK ORDER */}
-        <Card className="overflow-hidden border-0 shadow-lg rounded-2xl">
-          <CardHeader className="bg-gradient-to-r from-violet-500 to-violet-300 text-white py-4">
+        <Card className="rounded-2xl border border-slate-200 shadow-lg hover:shadow-xl transition-shadow overflow-visible">
+          <CardHeader className="py-3 px-5 border-b bg-white">
             <CardTitle className="flex items-center gap-2">
+              <div className="h-6 w-1.5 rounded-full bg-violet-500" />
               <Briefcase className="h-5 w-5" />
-              Tender & Work Order Information
+                <span className="text-sm font-bold text-slate-800 tracking-wide uppercase">Tender / Work Order</span>
+              
             </CardTitle>
           </CardHeader>
 
