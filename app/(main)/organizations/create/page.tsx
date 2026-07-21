@@ -12,14 +12,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
 const initialState = {
   orgName: "",
   contactName: "",
@@ -47,6 +39,7 @@ export default function CreateOrganization() {
   const router = useRouter();
 
   const [form, setForm] = useState(initialState);
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
 
   const [countries, setCountries] = useState<any[]>([]);
   const [states, setStates] = useState<any[]>([]);
@@ -60,6 +53,10 @@ export default function CreateOrganization() {
       ...prev,
       [key]: value,
     }));
+
+    if (errors[key]) {
+      setErrors((prev) => ({ ...prev, [key]: false }));
+    }
   };
 
   useEffect(() => {
@@ -116,37 +113,51 @@ export default function CreateOrganization() {
   };
 
   const validateForm = () => {
-    if (
-      !form.orgName ||
-      !form.phone ||
-      !form.email ||
-      !form.address ||
-      !form.city ||
-      !form.state ||
-      !form.country ||
-      !form.password ||
-      !form.confirmPassword
-    ) {
-      alert("Please fill all mandatory fields");
+    const newErrors: Record<string, boolean> = {
+      orgName: !form.orgName.trim(),
+      contactName: !form.contactName.trim(),
+      contactDesignation: !form.contactDesignation.trim(),
+      phone: !form.phone.trim(),
+      email: !form.email.trim(),
+      website: !form.website.trim(),
+      address: !form.address.trim(),
+      city: !form.city.trim(),
+      district: !form.district.trim(),
+      state: !form.state.trim(),
+      country: !form.country.trim(),
+      pincode: !form.pincode.trim(),
+      pan: !form.pan.trim(),
+      gstNo: !form.gstNo.trim(),
+      industryType: !form.industryType.trim(),
+      modeOfRegistration: !form.modeOfRegistration.trim(),
+      orgType: !form.orgType.trim(),
+      password: !form.password.trim(),
+      confirmPassword: !form.confirmPassword.trim(),
+    };
+
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some(Boolean)) {
+      //alert("Please fill all mandatory fields");
       return false;
     }
 
     const phoneRegex = /^[0-9]{10}$/;
 
     if (!phoneRegex.test(form.phone)) {
-      alert("Invalid phone number");
+      //alert("Invalid phone number");
       return false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(form.email)) {
-      alert("Invalid email");
+      //alert("Invalid email");
       return false;
     }
 
     if (form.password !== form.confirmPassword) {
-      alert("Passwords do not match");
+      //alert("Passwords do not match");
       return false;
     }
 
@@ -183,18 +194,21 @@ export default function CreateOrganization() {
             <FormInput
               label="Organization Name *"
               value={form.orgName}
+              error={errors.orgName}
               onChange={(v: string) => handleChange("orgName", v)}
             />
 
             <FormInput
-              label="Contact Name"
+              label="Contact Name *"
               value={form.contactName}
+              error={errors.contactName}
               onChange={(v: string) => handleChange("contactName", v)}
             />
 
             <FormInput
-              label="Designation"
+              label="Designation *"
               value={form.contactDesignation}
+              error={errors.contactDesignation}
               onChange={(v: string) => handleChange("contactDesignation", v)}
             />
 
@@ -202,6 +216,7 @@ export default function CreateOrganization() {
               label="Phone *"
               type="tel"
               value={form.phone}
+              error={errors.phone}
               onChange={(v: string) => handleChange("phone", v)}
             />
 
@@ -209,19 +224,22 @@ export default function CreateOrganization() {
               label="Email *"
               type="email"
               value={form.email}
+              error={errors.email}
               onChange={(v: string) => handleChange("email", v)}
             />
 
             <FormInput
-              label="Website"
+              label="Website *"
               type="url"
               value={form.website}
+              error={errors.website}
               onChange={(v: string) => handleChange("website", v)}
             />
 
             <FormTextarea
               label="Address *"
               value={form.address}
+              error={errors.address}
               onChange={(v: string) => handleChange("address", v)}
               className="md:col-span-2"
             />
@@ -229,27 +247,24 @@ export default function CreateOrganization() {
             <FormInput
               label="City *"
               value={form.city}
+              error={errors.city}
               onChange={(v: string) => handleChange("city", v)}
             />
 
             <FormInput
-              label="District"
+              label="District *"
               value={form.district}
+              error={errors.district}
               onChange={(v: string) => handleChange("district", v)}
             />
 
             <div>
-              <label>Country *</label>
+              <label className="text-sm font-medium">Country *</label>
 
               <select
-                className="border rounded-lg p-2 w-full"
+                className={`border rounded-lg p-2 w-full ${errors.country ? "border-red-500" : ""}`}
                 value={form.country}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    country: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange("country", e.target.value)}
               >
                 <option value="">Select</option>
 
@@ -259,20 +274,20 @@ export default function CreateOrganization() {
                   </option>
                 ))}
               </select>
+              {errors.country && (
+                <p className="text-red-500 text-xs mt-1 font-bold">
+                  * This is Mandatory
+                </p>
+              )}
             </div>
 
             <div>
-              <label>state *</label>
+              <label className="text-sm font-medium">State *</label>
 
               <select
-                className="border rounded-lg p-2 w-full"
+                className={`border rounded-lg p-2 w-full ${errors.state ? "border-red-500" : ""}`}
                 value={form.state}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    state: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange("state", e.target.value)}
               >
                 <option value="">Select</option>
 
@@ -282,27 +297,28 @@ export default function CreateOrganization() {
                   </option>
                 ))}
               </select>
+              {errors.state && (
+                <p className="text-red-500 text-xs mt-1 font-bold">
+                  * This is Mandatory
+                </p>
+              )}
             </div>
 
             <FormInput
-              label="Pincode"
+              label="Pincode *"
               type="number"
               value={form.pincode}
+              error={errors.pincode}
               onChange={(v: string) => handleChange("pincode", v)}
             />
 
             <div>
-              <label>Industry Type *</label>
+              <label className="text-sm font-medium">Industry Type *</label>
 
               <select
-                className="border rounded-lg p-2 w-full"
+                className={`border rounded-lg p-2 w-full ${errors.industryType ? "border-red-500" : ""}`}
                 value={form.industryType}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    industryType: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange("industryType", e.target.value)}
               >
                 <option value="">Select</option>
 
@@ -312,19 +328,21 @@ export default function CreateOrganization() {
                   </option>
                 ))}
               </select>
+              {errors.industryType && (
+                <p className="text-red-500 text-xs mt-1 font-bold">
+                  * This is Mandatory
+                </p>
+              )}
             </div>
 
             <div>
-              <label>Registration Mode *</label>
+              <label className="text-sm font-medium">Registration Mode *</label>
 
               <select
-                className="border rounded-lg p-2 w-full"
+                className={`border rounded-lg p-2 w-full ${errors.modeOfRegistration ? "border-red-500" : ""}`}
                 value={form.modeOfRegistration}
                 onChange={(e) =>
-                  setForm({
-                    ...form,
-                    modeOfRegistration: e.target.value,
-                  })
+                  handleChange("modeOfRegistration", e.target.value)
                 }
               >
                 <option value="">Select</option>
@@ -335,20 +353,20 @@ export default function CreateOrganization() {
                   </option>
                 ))}
               </select>
+              {errors.modeOfRegistration && (
+                <p className="text-red-500 text-xs mt-1 font-bold">
+                  * This is Mandatory
+                </p>
+              )}
             </div>
 
             <div>
-              <label>Organization Type *</label>
+              <label className="text-sm font-medium">Organization Type *</label>
 
               <select
-                className="border rounded-lg p-2 w-full"
+                className={`border rounded-lg p-2 w-full ${errors.orgType ? "border-red-500" : ""}`}
                 value={form.orgType}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    orgType: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange("orgType", e.target.value)}
               >
                 <option value="">Select</option>
 
@@ -358,17 +376,24 @@ export default function CreateOrganization() {
                   </option>
                 ))}
               </select>
+              {errors.orgType && (
+                <p className="text-red-500 text-xs mt-1 font-bold">
+                  * This is Mandatory
+                </p>
+              )}
             </div>
 
             <FormInput
-              label="PAN"
+              label="PAN *"
               value={form.pan}
+              error={errors.pan}
               onChange={(v: string) => handleChange("pan", v)}
             />
 
             <FormInput
-              label="GST No"
+              label="GST No *"
               value={form.gstNo}
+              error={errors.gstNo}
               onChange={(v: string) => handleChange("gstNo", v)}
             />
 
@@ -376,6 +401,7 @@ export default function CreateOrganization() {
               label="Password *"
               type="password"
               value={form.password}
+              error={errors.password}
               onChange={(v: string) => handleChange("password", v)}
             />
 
@@ -383,6 +409,7 @@ export default function CreateOrganization() {
               label="Confirm Password *"
               type="password"
               value={form.confirmPassword}
+              error={errors.confirmPassword}
               onChange={(v: string) => handleChange("confirmPassword", v)}
             />
           </div>
@@ -391,12 +418,12 @@ export default function CreateOrganization() {
             <Button
               variant="outline"
               onClick={() => router.back()}
-              className="min-w-28"
+              className="bg-orange-700 hover:bg-orange-500 hover:text-black text-white"
             >
               Cancel
             </Button>
 
-            <Button onClick={handleSubmit} className="min-w-36">
+            <Button onClick={handleSubmit} className="bg-cyan-900 hover:bg-cyan-600 hover:text-black">
               Save Organization
             </Button>
           </div>
@@ -406,7 +433,7 @@ export default function CreateOrganization() {
   );
 }
 
-function FormInput({ label, value, onChange, type = "text" }: any) {
+function FormInput({ label, value, onChange, type = "text", error = false }: any) {
   return (
     <div className="space-y-2">
       <Label className="text-sm font-medium">{label}</Label>
@@ -415,13 +442,16 @@ function FormInput({ label, value, onChange, type = "text" }: any) {
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="h-10 rounded-xl"
+        className={`h-10 rounded-xl ${error ? "border-red-500" : ""}`}
       />
+      {error && (
+        <p className="text-red-500 text-xs font-bold">* This is Mandatory</p>
+      )}
     </div>
   );
 }
 
-function FormTextarea({ label, value, onChange, className = "" }: any) {
+function FormTextarea({ label, value, onChange, className = "", error = false }: any) {
   return (
     <div className={`space-y-2 ${className}`}>
       <Label className="text-sm font-medium">{label}</Label>
@@ -429,8 +459,11 @@ function FormTextarea({ label, value, onChange, className = "" }: any) {
       <Textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="min-h-[100px] rounded-xl"
+        className={`min-h-[100px] rounded-xl ${error ? "border-red-500" : ""}`}
       />
+      {error && (
+        <p className="text-red-500 text-xs font-bold">* This is Mandatory</p>
+      )}
     </div>
   );
 }

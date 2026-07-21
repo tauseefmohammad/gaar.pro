@@ -81,16 +81,25 @@ export default function EditReceivableForm({ id }: { id: string }) {
   }, [id]);
 
   const handleUpdate = async () => {
-    await fetch(`/api/receivable/${id}`, {
+  try {
+    const res = await fetch(`/api/receivable/${id}`, {
       method: "PUT",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...form,
         orgId,
       }),
     });
 
+    if (!res.ok) {
+      throw new Error("Failed to update receivable");
+    }
+
     router.push("/receivables");
-  };
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   const saveTransaction = async () => {
     const txnAmount = Number(transactionForm.amount || 0);

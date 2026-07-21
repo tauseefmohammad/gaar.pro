@@ -124,7 +124,12 @@ export default function OrganizationPage() {
             <FileSpreadsheet className="h-4 w-4 text-green-600" />
           </Button>
 
-          <Button onClick={() => router.push("/organizations/create")}>
+          <Button onClick={() => router.push("/organizations/create")}
+            variant="ghost"
+            className="bg-cyan-900 hover:bg-cyan-600 font-bold text-white text-sm align-middle"
+            title="Add Fund Request"
+            >
+            
             <Plus className="mr-2 h-4 w-4" />
             Organization
           </Button>
@@ -134,18 +139,18 @@ export default function OrganizationPage() {
       {/* Table */}
       <div className="rounded-md border bg-white">
         <Table>
-          <TableHeader>
+          <TableHeader className="sticky top-0 bg-cyan-200 z-20 shadow-sm">
             <TableRow>
-              <TableHead></TableHead>
-              <TableHead>Org Name</TableHead>
-              <TableHead>Contact Name</TableHead>
-              <TableHead>Contact Designation</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Reg. Date</TableHead>
-              <TableHead>City</TableHead>
-              <TableHead>State</TableHead>
-              <TableHead>Country</TableHead>
+              <TableHead className="font-bold">Edit</TableHead>
+              <TableHead className="font-bold">Org Name</TableHead>
+              <TableHead className="font-bold">Contact Name</TableHead>
+              <TableHead className="font-bold">Contact Designation</TableHead>
+              <TableHead className="font-bold">Phone</TableHead>
+              <TableHead className="font-bold">Email</TableHead>
+              <TableHead className="font-bold">Reg. Date</TableHead>
+              <TableHead className="font-bold">City</TableHead>
+              <TableHead className="font-bold">State</TableHead>
+              <TableHead className="font-bold">Country</TableHead>
             </TableRow>
           </TableHeader>
 

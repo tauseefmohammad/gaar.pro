@@ -164,28 +164,40 @@ export async function GET(req) {
 
     const page = parseInt(searchParams.get("page")) || 1;
     const limit = parseInt(searchParams.get("limit")) || 20;
-    const globalFilter = searchParams.get("globalFilter") || "";
+    const search = searchParams.get("search") || "";
     const skip = (page - 1) * limit;
 
+    const query = search
+      ? {
+          $or: [
+            { orgName: { $regex: search, $options: "i" } },
+            { orgId: { $regex: search, $options: "i" } },
+            { contactName: { $regex: search, $options: "i" } },
+            { contactDesignation: { $regex: search, $options: "i" } },
+            { phone: { $regex: search, $options: "i" } },
+            { email: { $regex: search, $options: "i" } },
+            { website: { $regex: search, $options: "i" } },
+            { address: { $regex: search, $options: "i" } },
+            { city: { $regex: search, $options: "i" } },
+            { district: { $regex: search, $options: "i" } },
+            { state: { $regex: search, $options: "i" } },
+            { country: { $regex: search, $options: "i" } },
+            { pincode: { $regex: search, $options: "i" } },
+            { status: { $regex: search, $options: "i" } },
+            { pan: { $regex: search, $options: "i" } },
+            { gstNo: { $regex: search, $options: "i" } },
+            { industryType: { $regex: search, $options: "i" } },
+            { modeOfRegistration: { $regex: search, $options: "i" } },
+            { orgType: { $regex: search, $options: "i" } },
+          ],
+        }
+      : {};
+
     const [orgs, total] = await Promise.all([
-      Organization.find({
-        $or: [
-          { orgName: { $regex: globalFilter, $options: "i" } },
-          { email: { $regex: globalFilter, $options: "i" } },
-          { phone: { $regex: globalFilter, $options: "i" } },
-        ],
-      })
-        .skip(skip)
-        .limit(limit),
-      Organization.countDocuments({
-        $or: [
-          { orgName: { $regex: globalFilter, $options: "i" } },
-          { email: { $regex: globalFilter, $options: "i" } },
-          { phone: { $regex: globalFilter, $options: "i" } },
-        ],
-      }),
+      Organization.find(query).skip(skip).limit(limit),
+      Organization.countDocuments(query),
     ]);
-    console.log("Organizations: ", orgs);
+
     return NextResponse.json(
       {
         data: orgs,

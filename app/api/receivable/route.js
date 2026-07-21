@@ -14,12 +14,40 @@ export async function GET(req) {
     const limit = parseInt(searchParams.get("limit")) || 20;
     const skip = (page - 1) * limit;
     const orgId = searchParams.get("orgId");
+    const search = searchParams.get("search") || "";
+    const sortField = searchParams.get("sortField") || "dueDate";
+    const sortOrder = searchParams.get("sortOrder") === "asc" ? 1 : -1;
+
+    const query = {
+      ...(orgId ? { orgId } : {}),
+      ...(search
+        ? {
+            $or: [
+              { description: { $regex: search, $options: "i" } },
+              { type: { $regex: search, $options: "i" } },
+              { paymentFrom: { $regex: search, $options: "i" } },
+              { vertical: { $regex: search, $options: "i" } },
+              { subVertical: { $regex: search, $options: "i" } },
+              { status: { $regex: search, $options: "i" } },
+              { state: { $regex: search, $options: "i" } },
+              { owner: { $regex: search, $options: "i" } },
+              { invoiceNo: { $regex: search, $options: "i" } },
+              { woNo: { $regex: search, $options: "i" } },
+              { woTitle: { $regex: search, $options: "i" } },
+              { tenderNo: { $regex: search, $options: "i" } },
+            ],
+          }
+        : {}),
+    };
 
     const [receivables, total] = await Promise.all([
-      ReceivableInfo.find({ orgId: orgId }).skip(skip).limit(limit),
-      ReceivableInfo.countDocuments(),
+      ReceivableInfo.find(query)
+        .sort({ [sortField]: sortOrder })
+        .skip(skip)
+        .limit(limit),
+      ReceivableInfo.countDocuments(query),
     ]);
-    console.log("Receivables: ", receivables);
+
     return NextResponse.json(
       {
         data: receivables,
